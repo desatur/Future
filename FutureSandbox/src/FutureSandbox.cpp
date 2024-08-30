@@ -1,10 +1,19 @@
 #include <iostream>
+#include "../../Future/include/Future.hpp"
 
-namespace FutureEngine {
-    __declspec(dllimport) void Test();
-}
+class FutureSandbox : public Future::Engine {
+public:
+    FutureSandbox() {
+
+    }
+    ~FutureSandbox() {
+
+    }
+};
 
 int main() {
-    FutureEngine::Test();
+    FutureSandbox* fs = new FutureSandbox();
+    fs->Run();
+    delete fs;
     return 0;
 }
