@@ -1,3 +1,12 @@
 [submodule "lib/benchmark"]
-	path = lib/benchmark
+	path = thirdParty/benchmark
 	url = https://github.com/google/benchmark.git
+[submodule "thirdParty/SDL"]
+	path = thirdParty/SDL
+	url = https://github.com/libsdl-org/SDL/
+[submodule "thirdParty/glfw"]
+	path = thirdParty/glfw
+	url = https://github.com/glfw/glfw
+[submodule "thirdParty/gv"]
+	path = thirdParty/gv
+	url = https://github.com/kohakow/gv
