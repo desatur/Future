@@ -11,3 +11,9 @@ add_executable(FutureSandbox
 )
 
 target_link_libraries(FutureSandbox PRIVATE Future)
+
+add_custom_command(TARGET FutureSandbox POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        $<TARGET_FILE:Future>
+        $<TARGET_FILE_DIR:FutureSandbox>
+)

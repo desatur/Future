@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../../Future/include/Future.hpp"
+#include "../../Future/Future.hpp"
 
 class FutureSandbox : public Future::Engine {
 public:
@@ -7,13 +7,9 @@ public:
 
     }
     ~FutureSandbox() {
-
     }
 };
 
-int main() {
-    FutureSandbox* fs = new FutureSandbox();
-    fs->Run();
-    delete fs;
-    return 0;
+Future::Engine* Future::CreateApplication() {
+    return new FutureSandbox;
 }

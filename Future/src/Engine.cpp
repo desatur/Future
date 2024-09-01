@@ -1,9 +1,13 @@
 #include "Engine.hpp"
+#include "Window/Window.hpp"
+#include "Rendering/OpenGL/OpenGL.hpp"
 
 namespace Future {
     void Engine::Run() {
-        while (true) {
-            // Your implementation here
-        }
+        auto window = new Future::Window();
+        auto renderer = new Future::OpenGL(window);
+        renderer->Init();
+        //window->Init();
+        //window->Loop();
     }
 }
