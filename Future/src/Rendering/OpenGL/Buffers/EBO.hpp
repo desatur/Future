@@ -1,5 +1,6 @@
 #ifndef EBO_HPP
 #define EBO_HPP
+#include <vector>
 #include <glad/glad.h>
 
 namespace Future
@@ -8,7 +9,7 @@ namespace Future
     {
         public:
             GLuint ID;
-            EBO(GLuint* indices, GLsizeiptr size);
+            EBO(std::vector<GLuint>& indices);
 
             void Bind();
             void Unbind();

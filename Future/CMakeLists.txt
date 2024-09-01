@@ -39,6 +39,8 @@ add_library(Future SHARED
         src/Rendering/OpenGL/Textures/Texture.hpp
         src/Rendering/OpenGL/Camera.cpp
         src/Rendering/OpenGL/Camera.hpp
+        src/Rendering/OpenGL/Mesh.cpp
+        src/Rendering/OpenGL/Mesh.hpp
 )
 
 target_include_directories(Future PUBLIC
