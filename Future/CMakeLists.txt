@@ -11,6 +11,7 @@ add_subdirectory(${THIRD_PARTY_LIB_DIR}/spdlog spdlog)
 add_subdirectory(${THIRD_PARTY_LIB_DIR}/SDL SDL)
 add_subdirectory(${THIRD_PARTY_LIB_DIR}/glfw glfw)
 add_subdirectory(${THIRD_PARTY_LIB_DIR}/glm glm)
+add_subdirectory(${THIRD_PARTY_LIB_DIR}/json json)
 
 add_library(Future SHARED
         src/Engine.cpp
@@ -41,6 +42,8 @@ add_library(Future SHARED
         src/Rendering/OpenGL/Camera.hpp
         src/Rendering/OpenGL/Mesh.cpp
         src/Rendering/OpenGL/Mesh.hpp
+        src/Rendering/OpenGL/Model.cpp
+        src/Rendering/OpenGL/Model.hpp
 )
 
 target_include_directories(Future PUBLIC
@@ -49,6 +52,7 @@ target_include_directories(Future PUBLIC
         ${THIRD_PARTY_LIB_DIR}/glad/include/
         ${THIRD_PARTY_LIB_DIR}/stb/
         ${THIRD_PARTY_LIB_DIR}/glm/glm/
+        ${THIRD_PARTY_LIB_DIR}/json/include
 )
 
 target_link_libraries(Future PUBLIC spdlog::spdlog $<$<BOOL:${MINGW}>:ws2_32>)
