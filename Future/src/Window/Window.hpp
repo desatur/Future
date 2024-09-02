@@ -18,10 +18,12 @@ namespace Future
         bool Init(); // Initialization method
         void Destroy(); // Cleanup method to free resources
         bool IsRunning() const;
-        void Loop();
 
         SDL_Window* GetWindow() const { return sdlWindow; }
         SDL_Surface* GetScreenSurface() const { return sdlScreenSurface; }
+        [[nodiscard]] unsigned int GetWidth() const { return sdlScreenSurface->w; }
+        [[nodiscard]] unsigned int GetHeight() const { return sdlScreenSurface->h; }
+        void Tick();
 
     private:
         std::string mTitle;
@@ -31,8 +33,7 @@ namespace Future
 
         SDL_Window* sdlWindow;
         SDL_Surface* sdlScreenSurface;
-        SDL_Renderer* sdlRenderer;
-        SDL_GLContext sdlGLContext;
+        SDL_GLContext glSdlContext;
 
         bool mRunning;
     };

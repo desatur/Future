@@ -10,7 +10,7 @@ namespace Future
         : mTitle(title), mWidth(width), mHeight(height), mFullscreen(fullscreen),
           sdlWindow(nullptr), sdlScreenSurface(nullptr), mRunning(false)
     {
-        gladLoadGLLoader((GLADloadproc) SDL_GL_GetProcAddress);
+
     }
 
     Window::~Window()
@@ -54,14 +54,12 @@ namespace Future
                 {
                     FE_CORE_INFO("Screen surface created");
                 }
-                sdlRenderer = SDL_CreateRenderer(sdlWindow, -1, SDL_RENDERER_ACCELERATED);
-                if (sdlRenderer != nullptr)
+                glSdlContext = SDL_GL_CreateContext(sdlWindow);
+                if (glSdlContext != nullptr)
                 {
-                    FE_CORE_INFO("SDL Renderer created");
+                    FE_CORE_INFO("GL-SDL Renderer context created");
                     mRunning = true;
                 }
-                mRunning = true; // temp
-                sdlGLContext = SDL_GL_CreateContext(sdlWindow);
             }
         }
         return success;
@@ -89,10 +87,12 @@ namespace Future
         return mRunning;
     }
 
-    void Window::Loop()
+    void Window::Tick()
     {
-        while (mRunning)
+        if (mRunning)
         {
+            SDL_GL_SwapWindow(sdlWindow);
+
             SDL_Event e;
             while (SDL_PollEvent(&e))
             {
@@ -100,9 +100,6 @@ namespace Future
                 {
                     mRunning = false;
                 }
-
-                SDL_UpdateWindowSurface(sdlWindow);
-                SDL_Delay(1000 / 30);
             }
         }
     }
