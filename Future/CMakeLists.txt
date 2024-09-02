@@ -12,6 +12,7 @@ add_subdirectory(${THIRD_PARTY_LIB_DIR}/SDL SDL)
 add_subdirectory(${THIRD_PARTY_LIB_DIR}/glfw glfw)
 add_subdirectory(${THIRD_PARTY_LIB_DIR}/glm glm)
 add_subdirectory(${THIRD_PARTY_LIB_DIR}/json json)
+add_subdirectory(${THIRD_PARTY_LIB_DIR}/tinygltf tinygltf)
 
 add_library(Future SHARED
         src/Engine.cpp
@@ -53,6 +54,7 @@ target_include_directories(Future PUBLIC
         ${THIRD_PARTY_LIB_DIR}/stb/
         ${THIRD_PARTY_LIB_DIR}/glm/glm/
         ${THIRD_PARTY_LIB_DIR}/json/include
+        ${THIRD_PARTY_LIB_DIR}/tinygltf/
 )
 
 target_link_libraries(Future PUBLIC spdlog::spdlog $<$<BOOL:${MINGW}>:ws2_32>)
@@ -60,6 +62,7 @@ target_link_libraries(Future PUBLIC SDL2::SDL2main)
 target_link_libraries(Future PUBLIC SDL2::SDL2)
 target_link_libraries(Future PUBLIC glfw)
 target_link_libraries(Future PUBLIC glm)
+target_link_libraries(Future PUBLIC tinygltf)
 
 add_custom_command(TARGET Future POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory

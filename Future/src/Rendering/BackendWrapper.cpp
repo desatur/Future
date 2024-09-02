@@ -64,7 +64,7 @@ namespace Future
 
         Camera camera(1920, 1080, glm::vec3(0.0f, 0.0f, 1.0f));
 
-        Model test("bnuy/scene.gltf");
+        Model test("lucoa/scene.gltf");
 
         while (m_window->IsRunning())
         {
