@@ -23,27 +23,27 @@ add_library(Future SHARED
         src/Log.hpp
         src/Window/Window.cpp
         src/Window/Window.hpp
-        src/Rendering/OpenGL/OpenGL.cpp
-        src/Rendering/OpenGL/OpenGL.hpp
-        src/Rendering/OpenGL/Shaders.cpp
-        src/Rendering/OpenGL/Shaders.hpp
-        src/Rendering/OpenGL/Buffers/VBO.cpp
-        src/Rendering/OpenGL/Buffers/VBO.hpp
-        src/Rendering/OpenGL/Buffers/VAO.cpp
-        src/Rendering/OpenGL/Buffers/VAO.hpp
-        src/Rendering/OpenGL/Buffers/EBO.cpp
-        src/Rendering/OpenGL/Buffers/EBO.hpp
+        src/Rendering/BackendWrapper.cpp
+        src/Rendering/BackendWrapper.hpp
+        src/Rendering/Shaders.cpp
+        src/Rendering/Shaders.hpp
+        src/Rendering/Buffers/VBO.cpp
+        src/Rendering/Buffers/VBO.hpp
+        src/Rendering/Buffers/VAO.cpp
+        src/Rendering/Buffers/VAO.hpp
+        src/Rendering/Buffers/EBO.cpp
+        src/Rendering/Buffers/EBO.hpp
 
         # GLAD
         ${THIRD_PARTY_LIB_DIR}/glad/src/glad.c
-        src/Rendering/OpenGL/Textures/Texture.cpp
-        src/Rendering/OpenGL/Textures/Texture.hpp
-        src/Rendering/OpenGL/Camera.cpp
-        src/Rendering/OpenGL/Camera.hpp
-        src/Rendering/OpenGL/Mesh.cpp
-        src/Rendering/OpenGL/Mesh.hpp
-        src/Rendering/OpenGL/Model.cpp
-        src/Rendering/OpenGL/Model.hpp
+        src/Rendering/Textures/Texture.cpp
+        src/Rendering/Textures/Texture.hpp
+        src/Rendering/Camera.cpp
+        src/Rendering/Camera.hpp
+        src/Rendering/Mesh.cpp
+        src/Rendering/Mesh.hpp
+        src/Rendering/Model.cpp
+        src/Rendering/Model.hpp
 )
 
 target_include_directories(Future PUBLIC

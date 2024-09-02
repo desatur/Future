@@ -2,8 +2,8 @@
 
 #include <fstream>
 #include <stddef.h>
-#include <glad/glad.h>
-#include "../../Log.hpp"
+#include <../../../thirdParty/glad/include/glad/glad.h>
+#include "../Log.hpp"
 
 namespace Future
 {

@@ -2,7 +2,7 @@
 #define SHADERS_HPP
 
 #include <fstream>
-#include <glad/glad.h>
+#include <../../../thirdParty/glad/include/glad/glad.h>
 
 namespace Future
 {

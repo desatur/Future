@@ -2,15 +2,15 @@
 #define CAMERA_HPP
 
 #include "Shaders.hpp"
-#include "vec3.hpp"
-#include "GLFW/glfw3.h"
-#include "glm\glm.hpp"
-#include "glad\glad.h"
-#include "gtc/type_ptr.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-#include "glm/gtc/type_ptr.hpp"
+#include "../../../thirdParty/glm/glm/vec3.hpp"
+#include "../../../thirdParty/glfw/include/GLFW/glfw3.h"
+#include "../../../thirdParty/glm/glm/glm.hpp"
+#include "../../../thirdParty/glad/include/glad/glad.h"
+#include "../../../thirdParty/glm/glm/gtc/type_ptr.hpp"
+#include "../../../thirdParty/glm/glm/gtc/matrix_transform.hpp"
+#include "../../../thirdParty/glm/glm/gtc/type_ptr.hpp"
 #define GLM_ENABLE_EXPERIMENTAL
-#include "glm/gtx/vector_angle.hpp"
+#include "../../../thirdParty/glm/glm/gtx/vector_angle.hpp"
 
 namespace Future {
     class Camera

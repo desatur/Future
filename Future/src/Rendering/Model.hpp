@@ -1,7 +1,7 @@
 #ifndef MODEL_HPP
 #define MODEL_HPP
 
-#include <nlohmann/json.hpp>
+#include <../../../thirdParty/json/include/nlohmann/json.hpp>
 
 #include "Camera.hpp"
 #include "Mesh.hpp"

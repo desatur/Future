@@ -1,27 +1,47 @@
-#include "OpenGL.hpp"
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include "BackendWrapper.hpp"
+#include <../../../thirdParty/glad/include/glad/glad.h>
+#include <../../../thirdParty/glfw/include/GLFW/glfw3.h>
+#include <../../../thirdParty/glm/glm/glm.hpp>
+#include <../../../thirdParty/glm/glm/gtc/matrix_transform.hpp>
+#include <../../../thirdParty/glm/glm/gtc/type_ptr.hpp>
 #include "Shaders.hpp"
 #include "Camera.hpp"
 #include "Model.hpp"
 
 namespace Future
 {
-    OpenGL::OpenGL(Window* window)
+    enum class Backend : std::uint8_t
+    {
+        OPENGL = 0x01,
+        VULKAN = 0x02
+    };
+
+    std::string BackendToString(Backend const backend)
+    {
+        switch (backend)
+        {
+            case Backend::OPENGL: return "OPENGL";
+            case Backend::VULKAN: return "VULKAN";
+            default: return "UNKNOWN";
+        }
+    }
+
+    BackendWrapper::BackendWrapper(Window* window, Backend backend)
     {
         m_window = window;
+        m_backend = backend;
+        FE_CORE_INFO("Backend selected: " + BackendToString(backend));
         gladLoadGL();
     }
 
-    OpenGL::~OpenGL()
+    BackendWrapper::~BackendWrapper()
     {
 
     }
 
-    bool OpenGL::Init()
+    // TODO: https://www.youtube.com/watch?v=crOfyWiWxmc
+
+    bool BackendWrapper::Init()
     {
         glViewport(0, 0, 1920, 1080);
         Shaders shaderProgram("Shaders/default.vert", "Shaders/default.frag"); // Generates Shader object using shaders default.vert and default.frag
@@ -38,6 +58,9 @@ namespace Future
 
         glEnable(GL_DEPTH_TEST); // Enable depth buffer
         glDepthFunc(GL_LESS); // Depth func/type
+        glEnable(GL_CULL_FACE); // Enable Face Culling
+        glCullFace(GL_FRONT); // Cull front faces
+        glFrontFace(GL_CCW);  // CCW is common
 
         Camera camera(1920, 1080, glm::vec3(0.0f, 0.0f, 1.0f));
 

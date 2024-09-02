@@ -1,8 +1,4 @@
 #include "Window.hpp"
-#include "../Log.hpp"
-#include "SDL.h"
-#include <thread>
-#include <glad/glad.h>
 
 namespace Future
 {
@@ -10,7 +6,10 @@ namespace Future
         : mTitle(title), mWidth(width), mHeight(height), mFullscreen(fullscreen),
           sdlWindow(nullptr), sdlScreenSurface(nullptr), mRunning(false)
     {
-
+        if (SDL_Init(SDL_INIT_VIDEO) < 0)
+        {
+            FE_CORE_ERROR("SDL could not initialize!");
+        }
     }
 
     Window::~Window()
@@ -21,45 +20,35 @@ namespace Future
     bool Window::Init()
     {
         bool success = true;
-
         FE_CORE_INFO("Initializing game window");
 
-        if (SDL_Init(SDL_INIT_VIDEO) < 0)
+        Uint32 flags = SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL;
+        //SDL_WINDOW_VULKAN alt backend
+
+        if (mFullscreen)
         {
-            FE_CORE_ERROR("SDL could not initialize!");
+            flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+        }
+
+        sdlWindow = SDL_CreateWindow(mTitle.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, mWidth, mHeight, flags);
+        if (sdlWindow == nullptr)
+        {
+            FE_CORE_ERROR("Window could not be created!");
             success = false;
         }
         else
         {
-            FE_CORE_INFO("SDL2 Initialized");
-
-            Uint32 flags = SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL;
-
-            if (mFullscreen)
+            FE_CORE_INFO("Window created");
+            sdlScreenSurface = SDL_GetWindowSurface(sdlWindow);
+            if (sdlScreenSurface != nullptr)
             {
-                flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+                FE_CORE_INFO("Screen surface assigned");
             }
-
-            sdlWindow = SDL_CreateWindow(mTitle.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, mWidth, mHeight, flags);
-            if (sdlWindow == nullptr)
+            glSdlContext = SDL_GL_CreateContext(sdlWindow);
+            if (glSdlContext != nullptr)
             {
-                FE_CORE_ERROR("Window could not be created!");
-                success = false;
-            }
-            else
-            {
-                FE_CORE_INFO("Window created");
-                sdlScreenSurface = SDL_GetWindowSurface(sdlWindow);
-                if (sdlScreenSurface != nullptr)
-                {
-                    FE_CORE_INFO("Screen surface created");
-                }
-                glSdlContext = SDL_GL_CreateContext(sdlWindow);
-                if (glSdlContext != nullptr)
-                {
-                    FE_CORE_INFO("GL-SDL Renderer context created");
-                    mRunning = true;
-                }
+                FE_CORE_INFO("SDL_GLContext created");
+                mRunning = true;
             }
         }
         return success;
@@ -96,6 +85,20 @@ namespace Future
         {
             mBoundCursor = true;
             SDL_ShowCursor(SDL_DISABLE);
+        }
+    }
+
+    void Window::ToggleWindowVisibility()
+    {
+        if (mWindowVisible)
+        {
+            mWindowVisible = false;
+            SDL_HideWindow(sdlWindow);
+        }
+        else
+        {
+            mWindowVisible = true;
+            SDL_ShowWindow(sdlWindow);
         }
     }
 
