@@ -99,6 +99,12 @@ namespace Future
         }
     }
 
+    void Window::SetWindowTitle(const std::string &title)
+    {
+        mTitle = title;
+        SDL_SetWindowTitle(sdlWindow, mTitle.c_str());
+    }
+
     void Window::Tick()
     {
         if (mRunning)

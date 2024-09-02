@@ -24,6 +24,7 @@ namespace Future
 
         void Tick();
         void ToggleBindCursor();
+        void SetWindowTitle(const std::string& title);
 
     private:
         std::string mTitle;
