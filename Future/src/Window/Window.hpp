@@ -21,15 +21,16 @@ namespace Future
 
         SDL_Window* GetWindow() const { return sdlWindow; }
         SDL_Surface* GetScreenSurface() const { return sdlScreenSurface; }
-        [[nodiscard]] unsigned int GetWidth() const { return sdlScreenSurface->w; }
-        [[nodiscard]] unsigned int GetHeight() const { return sdlScreenSurface->h; }
+
         void Tick();
+        void ToggleBindCursor();
 
     private:
         std::string mTitle;
         int mWidth;
         int mHeight;
         bool mFullscreen;
+        bool mBoundCursor;
 
         SDL_Window* sdlWindow;
         SDL_Surface* sdlScreenSurface;

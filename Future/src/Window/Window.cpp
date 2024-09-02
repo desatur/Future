@@ -72,13 +72,11 @@ namespace Future
             SDL_FreeSurface(sdlScreenSurface);
             sdlScreenSurface = nullptr;
         }
-
         if (sdlWindow)
         {
             SDL_DestroyWindow(sdlWindow);
             sdlWindow = nullptr;
         }
-
         SDL_Quit();
     }
 
@@ -87,11 +85,30 @@ namespace Future
         return mRunning;
     }
 
+    void Window::ToggleBindCursor()
+    {
+        if (mBoundCursor)
+        {
+            mBoundCursor = false;
+            SDL_ShowCursor(SDL_ENABLE);
+        }
+        else
+        {
+            mBoundCursor = true;
+            SDL_ShowCursor(SDL_DISABLE);
+        }
+    }
+
     void Window::Tick()
     {
         if (mRunning)
         {
             SDL_GL_SwapWindow(sdlWindow);
+
+            if (mBoundCursor)
+            {
+                SDL_WarpMouseInWindow(sdlWindow, mWidth / 2, mHeight / 2);
+            }
 
             SDL_Event e;
             while (SDL_PollEvent(&e))
@@ -99,6 +116,13 @@ namespace Future
                 if (e.type == SDL_QUIT)
                 {
                     mRunning = false;
+                }
+                if (e.type == SDL_KEYDOWN)
+                {
+                    if (e.key.keysym.scancode == SDL_SCANCODE_TAB)
+                    {
+                        ToggleBindCursor();
+                    }
                 }
             }
         }

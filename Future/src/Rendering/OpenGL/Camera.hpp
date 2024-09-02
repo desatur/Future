@@ -38,7 +38,7 @@ namespace Future {
             // Updates and exports the camera matrix to the Vertex Shader
             void UpdateMatrix(float FOVdeg, float nearPlane, float farPlane);
             void Matrix(Shaders& shader, const char* uniform);
-            void Inputs(GLFWwindow* window);
+            void SetPosition(glm::vec3 position);
     };
 }
 

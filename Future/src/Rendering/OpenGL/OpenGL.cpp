@@ -13,6 +13,7 @@ namespace Future
     OpenGL::OpenGL(Window* window)
     {
         m_window = window;
+        gladLoadGL();
     }
 
     OpenGL::~OpenGL()
@@ -22,11 +23,8 @@ namespace Future
 
     bool OpenGL::Init()
     {
-        gladLoadGL();
         glViewport(0, 0, 1920, 1080);
-
-        // Generates Shader object using shaders default.vert and default.frag
-        Shaders shaderProgram("Shaders/default.vert", "Shaders/default.frag");
+        Shaders shaderProgram("Shaders/default.vert", "Shaders/default.frag"); // Generates Shader object using shaders default.vert and default.frag
 
         // Take care of all the light related things
         glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
@@ -38,18 +36,16 @@ namespace Future
         glUniform4f(glGetUniformLocation(shaderProgram.ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
         glUniform3f(glGetUniformLocation(shaderProgram.ID, "lightPos"), lightPos.x, lightPos.y, lightPos.z);
 
-        // Enables the Depth Buffer
-        glEnable(GL_DEPTH_TEST);
-        glDepthFunc(GL_LESS);
+        glEnable(GL_DEPTH_TEST); // Enable depth buffer
+        glDepthFunc(GL_LESS); // Depth func/type
 
-        // Creates camera object
-        Camera camera(1920, 1080, glm::vec3(0.0f, 0.0f, 2.0f));
+        Camera camera(1920, 1080, glm::vec3(0.0f, 0.0f, 1.0f));
 
-        Model test("ground/scene.gltf");
+        Model test("bnuy/scene.gltf");
 
         while (m_window->IsRunning())
         {
-            glClearColor(0.1f, 0.1f, 0.1f, 1.0f); // Clear screen with color (black)
+            glClearColor(0.01f, 0.01f, 0.01f, 1.0f); // Clear screen with color (black)
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear buffers
 
             camera.UpdateMatrix(45.0f, 0.1f, 100.0f); // Updates and exports the camera matrix to the Vertex Shader
@@ -58,7 +54,6 @@ namespace Future
 
             m_window->Tick();
         }
-
         shaderProgram.Delete();
         return true;
     }
