@@ -58,13 +58,13 @@ namespace Future
 
         glEnable(GL_DEPTH_TEST); // Enable depth buffer
         glDepthFunc(GL_LESS); // Depth func/type
-        glEnable(GL_CULL_FACE); // Enable Face Culling
-        glCullFace(GL_FRONT); // Cull front faces
-        glFrontFace(GL_CCW);  // CCW is common
+        //glEnable(GL_CULL_FACE); // Enable Face Culling
+        //glCullFace(GL_FRONT); // Cull front faces
+        //glFrontFace(GL_CCW);  // CCW is common
 
         Camera camera(1920, 1080, glm::vec3(0.0f, 0.0f, 1.0f));
 
-        Model test("lucoa/scene.gltf");
+        Model test("bnuy/scene.gltf");
 
         while (m_window->IsRunning())
         {

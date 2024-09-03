@@ -26,3 +26,6 @@
 [submodule "thirdParty/tinygltf"]
 	path = thirdParty/tinygltf
 	url = https://github.com/syoyo/tinygltf/
+[submodule "thirdParty/entt"]
+	path = thirdParty/entt
+	url = https://github.com/skypjack/entt
