@@ -29,3 +29,6 @@
 [submodule "thirdParty/entt"]
 	path = thirdParty/entt
 	url = https://github.com/skypjack/entt
+[submodule "thirdParty/imgui"]
+	path = thirdParty/imgui
+	url = https://github.com/ocornut/imgui

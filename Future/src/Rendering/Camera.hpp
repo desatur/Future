@@ -28,10 +28,6 @@ namespace Future {
             // Stores the width and height of the window
             int width, height;
 
-            // Adjust the speed of the camera and it's sensitivity when looking around
-            float speed = 0.00001f;
-            float sensitivity = 50.0f;
-
             // Camera constructor to set up initial values
             Camera(int width, int height, glm::vec3 position);
 

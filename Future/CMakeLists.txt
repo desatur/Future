@@ -15,6 +15,9 @@ add_subdirectory(${THIRD_PARTY_LIB_DIR}/json json)
 add_subdirectory(${THIRD_PARTY_LIB_DIR}/tinygltf tinygltf)
 
 add_library(Future SHARED
+        # GLAD
+        ${THIRD_PARTY_LIB_DIR}/glad/src/glad.c
+
         src/Engine.cpp
         src/Engine.hpp
         src/Core.hpp
@@ -24,8 +27,8 @@ add_library(Future SHARED
         src/Log.hpp
         src/Window/Window.cpp
         src/Window/Window.hpp
-        src/Rendering/BackendWrapper.cpp
-        src/Rendering/BackendWrapper.hpp
+        src/Rendering/Renderer.cpp
+        src/Rendering/Renderer.hpp
         src/Rendering/Shaders.cpp
         src/Rendering/Shaders.hpp
         src/Rendering/Buffers/VBO.cpp
@@ -34,9 +37,6 @@ add_library(Future SHARED
         src/Rendering/Buffers/VAO.hpp
         src/Rendering/Buffers/EBO.cpp
         src/Rendering/Buffers/EBO.hpp
-
-        # GLAD
-        ${THIRD_PARTY_LIB_DIR}/glad/src/glad.c
         src/Rendering/Textures/Texture.cpp
         src/Rendering/Textures/Texture.hpp
         src/Rendering/Camera.cpp

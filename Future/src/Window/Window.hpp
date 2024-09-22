@@ -16,7 +16,7 @@ namespace Future
 
         bool Init();
         void Destroy();
-        void Tick();
+        SDL_Event Tick();
         void ToggleBindCursor();
         void ToggleWindowVisibility();
         void SetWindowTitle(const std::string& title);
@@ -24,6 +24,7 @@ namespace Future
         [[nodiscard]] bool IsRunning() const;
         [[nodiscard]] SDL_Window* GetWindow() const { return sdlWindow; }
         [[nodiscard]] SDL_Surface* GetScreenSurface() const { return sdlScreenSurface; }
+        [[nodiscard]] SDL_GLContext GetGLContext() const { return glSdlContext; }
     private:
         std::string mTitle;
         int mWidth;

@@ -3,12 +3,18 @@
 
 #include "../Core.hpp"
 #include "../Window/Window.hpp"
-#include <../../../thirdParty/glad/include/glad/glad.h>
-#include <../../../thirdParty/glfw/include/GLFW/glfw3.h>
 #include <../../../thirdParty/stb/stb_image.h>
 #include <../../../thirdParty/glm/glm/glm.hpp>
 #include <../../../thirdParty/glm/glm/gtc/matrix_transform.hpp>
 #include <../../../thirdParty/glm/glm/gtc/type_ptr.hpp>
+#include <../../../thirdParty/glad/include/glad/glad.h>
+#include <../../../thirdParty/glfw/include/GLFW/glfw3.h>
+#include <../../../thirdParty/glm/glm/glm.hpp>
+#include <../../../thirdParty/glm/glm/gtc/matrix_transform.hpp>
+#include <../../../thirdParty/glm/glm/gtc/type_ptr.hpp>
+#include "Shaders.hpp"
+#include "Model.hpp"
+#include "Camera.hpp"
 #include "Shaders.hpp"
 #include "Buffers/EBO.hpp"
 #include "Buffers/VAO.hpp"
@@ -18,17 +24,19 @@ namespace Future
 {
     enum class Backend : std::uint8_t;
 
-    class FE_API BackendWrapper
+    class FE_API Renderer
     {
         public:
-            BackendWrapper(Window* window, Backend backend);
-            ~BackendWrapper();
+            Renderer(Window* window);
+            ~Renderer();
 
-            bool Init();
-
+            void Init();
         private:
+            static void PreInitBackend();
+            static void InitBackend();
             Window* m_window;
-            Backend m_backend;
+            Camera* m_mainCamera{};
+            Shaders* m_shaderProgram{};
     };
 }
 

@@ -9,7 +9,7 @@ namespace Future
         Mesh::indices = indices;
         Mesh::textures = textures;
 
-        VAO.Bind(); // Bind VAO
+        VAO.Bind();
 
         VBO VBO (vertices);
         EBO EBO (indices);
@@ -23,7 +23,6 @@ namespace Future
         VBO.Unbind();
         EBO.Unbind();
     }
-
 
     void Mesh::Draw
     (

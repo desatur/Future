@@ -108,7 +108,7 @@ namespace Future
         SDL_SetWindowTitle(sdlWindow, mTitle.c_str());
     }
 
-    void Window::Tick()
+    SDL_Event Window::Tick()
     {
         if (mRunning)
         {
@@ -122,6 +122,7 @@ namespace Future
             SDL_Event e;
             while (SDL_PollEvent(&e))
             {
+                //ImGui_ImplSDL2_ProcessEvent(&e);
                 if (e.type == SDL_QUIT)
                 {
                     mRunning = false;
@@ -134,6 +135,7 @@ namespace Future
                     }
                 }
             }
+            return e;
         }
     }
 }

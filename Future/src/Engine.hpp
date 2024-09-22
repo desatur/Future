@@ -3,7 +3,7 @@
 
 #include "Core.hpp"
 #include "Window/Window.hpp"
-#include "Rendering/BackendWrapper.hpp"
+#include "Rendering/Renderer.hpp"
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
