@@ -32,3 +32,6 @@
 [submodule "thirdParty/imgui"]
 	path = thirdParty/imgui
 	url = https://github.com/ocornut/imgui
+[submodule "thirdParty/assimp"]
+	path = thirdParty/assimp
+	url = https://github.com/assimp/assimp

@@ -2,10 +2,12 @@
 #define MESH_HPP
 
 #include <string>
-#include "Buffers/VAO.hpp"
-#include "Buffers/EBO.hpp"
-#include "Camera.hpp"
-#include "Textures/Texture.hpp"
+#include <vector>
+
+#include "../Buffers/VAO.hpp"
+#include "../Buffers/EBO.hpp"
+#include "../Camera.hpp"
+#include "../Textures/Texture.hpp"
 
 namespace Future
 {
@@ -20,7 +22,6 @@ namespace Future
 
         Mesh(std::vector <Vertex>& vertices, std::vector <GLuint>& indices, std::vector<Texture>& textures);
 
-        // Draws the mesh
         void Draw
         (
             Shaders& shader,
@@ -30,6 +31,8 @@ namespace Future
             glm::quat rotation = glm::quat(1.0f, 0.0f, 0.0f, 0.0f),
             glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f)
         );
+        private:
+        void SetupMesh();
     };
 }
 

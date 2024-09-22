@@ -110,6 +110,7 @@ namespace Future
 
     SDL_Event Window::Tick()
     {
+        SDL_Event e;
         if (mRunning)
         {
             SDL_GL_SwapWindow(sdlWindow);
@@ -119,7 +120,6 @@ namespace Future
                 SDL_WarpMouseInWindow(sdlWindow, mWidth / 2, mHeight / 2);
             }
 
-            SDL_Event e;
             while (SDL_PollEvent(&e))
             {
                 //ImGui_ImplSDL2_ProcessEvent(&e);
@@ -135,7 +135,7 @@ namespace Future
                     }
                 }
             }
-            return e;
         }
+        return e;
     }
 }

@@ -13,6 +13,7 @@ add_subdirectory(${THIRD_PARTY_LIB_DIR}/glfw glfw)
 add_subdirectory(${THIRD_PARTY_LIB_DIR}/glm glm)
 add_subdirectory(${THIRD_PARTY_LIB_DIR}/json json)
 add_subdirectory(${THIRD_PARTY_LIB_DIR}/tinygltf tinygltf)
+add_subdirectory(${THIRD_PARTY_LIB_DIR}/assimp assimp)
 
 add_library(Future SHARED
         # GLAD
@@ -41,10 +42,11 @@ add_library(Future SHARED
         src/Rendering/Textures/Texture.hpp
         src/Rendering/Camera.cpp
         src/Rendering/Camera.hpp
-        src/Rendering/Mesh.cpp
-        src/Rendering/Mesh.hpp
-        src/Rendering/Model.cpp
-        src/Rendering/Model.hpp
+        src/Rendering/Model/Mesh.cpp
+        src/Rendering/Model/Mesh.hpp
+        src/Rendering/Model/Model.cpp
+        src/Rendering/Model/Model.hpp
+        src/Rendering/Vertex.hpp
 )
 
 target_include_directories(Future PUBLIC
@@ -55,6 +57,7 @@ target_include_directories(Future PUBLIC
         ${THIRD_PARTY_LIB_DIR}/glm/glm/
         ${THIRD_PARTY_LIB_DIR}/json/include
         ${THIRD_PARTY_LIB_DIR}/tinygltf/
+        ${THIRD_PARTY_LIB_DIR}/assimp/include
 )
 
 target_link_libraries(Future PUBLIC spdlog::spdlog $<$<BOOL:${MINGW}>:ws2_32>)
@@ -63,6 +66,7 @@ target_link_libraries(Future PUBLIC SDL2::SDL2)
 target_link_libraries(Future PUBLIC glfw)
 target_link_libraries(Future PUBLIC glm)
 target_link_libraries(Future PUBLIC tinygltf)
+target_link_libraries(Future PUBLIC assimp)
 
 add_custom_command(TARGET Future POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory

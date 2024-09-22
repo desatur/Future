@@ -13,7 +13,7 @@
 #include <../../../thirdParty/glm/glm/gtc/matrix_transform.hpp>
 #include <../../../thirdParty/glm/glm/gtc/type_ptr.hpp>
 #include "Shaders.hpp"
-#include "Model.hpp"
+#include "Model/Model.hpp"
 #include "Camera.hpp"
 #include "Shaders.hpp"
 #include "Buffers/EBO.hpp"
@@ -31,6 +31,7 @@ namespace Future
             ~Renderer();
 
             void Init();
+            [[nodiscard]] Camera* GetMainCamera() const { return m_mainCamera; }
         private:
             static void PreInitBackend();
             static void InitBackend();
