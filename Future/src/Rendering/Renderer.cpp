@@ -40,11 +40,11 @@ namespace Future
 
         Camera m_mainCamera(1920, 1080, glm::vec3(0.0f, 0.0f, 1.0f));
 
-        Model test("bnuy/scene.gltf");
+        Model test("Sponza/glTF/sponza.gltf");
 
         while (m_window->IsRunning())
         {
-            glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Clear framebuffer
+            glClearColor(0.0f, 0.0f, 0.1f, 1.0f); // Clear framebuffer
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear those buffers
 
             m_mainCamera.UpdateMatrix(45.0f, 0.1f, 100.0f); // Updates and exports the camera matrix to the Vertex Shader

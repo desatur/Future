@@ -1,10 +1,13 @@
 #include "Model.hpp"
 
+#include <iostream>
+
 namespace Future
 {
     Model::Model(const char* file)
     {
-        LoadModel(file);
+        directory = file;
+        LoadModel();
     }
 
     void Model::Draw(Shaders& shader, Camera& camera)
@@ -15,17 +18,16 @@ namespace Future
         }
     }
 
-    void Model::LoadModel(const char* file)
+    void Model::LoadModel()
     {
         Assimp::Importer import;
-        const aiScene* scene = import.ReadFile(file, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
+        const aiScene* scene = import.ReadFile(directory, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
 
         if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
         {
             return;
         }
 
-        directory = std::string(file).substr(0, std::string(file).find_last_of('/')).data();
         ProcessNode(scene->mRootNode, scene);
     }
 
@@ -96,8 +98,8 @@ namespace Future
             std::vector<Texture> specularMaps = LoadMaterialTextures(material, aiTextureType_SPECULAR, "specular");
             textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 
-            std::vector<Texture> normalMaps = LoadMaterialTextures(material, aiTextureType_NORMALS, "normal");
-            textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
+            //std::vector<Texture> normalMaps = LoadMaterialTextures(material, aiTextureType_NORMALS, "normal");
+            //textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
         }
 
         return Mesh(vertices, indices, textures);

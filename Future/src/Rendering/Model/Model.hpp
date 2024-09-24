@@ -24,9 +24,9 @@ namespace Future
     private:
         // model data
         std::vector<Mesh> meshes;
-        char* directory;
+        const char *directory;
 
-        void LoadModel(const char* file);
+        void LoadModel();
         void ProcessNode(const aiNode *node, const aiScene *scene);
         Mesh ProcessMesh(aiMesh *mesh, const aiScene *scene);
         std::vector<Texture> LoadMaterialTextures(aiMaterial *mat, aiTextureType type, char* typeName);
