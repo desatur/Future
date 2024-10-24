@@ -1,8 +1,9 @@
 cmake_minimum_required(VERSION 3.29)
 
 set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>")
+#set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+#set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>")
+set(ASSIMP_BUILD_STATIC_LIB OFF)
 set(SHADERS_DIR ${CMAKE_SOURCE_DIR}/Future/src/Shaders/)
 
 project(Future)
@@ -12,7 +13,7 @@ add_subdirectory(${THIRD_PARTY_LIB_DIR}/SDL SDL)
 add_subdirectory(${THIRD_PARTY_LIB_DIR}/glfw glfw)
 add_subdirectory(${THIRD_PARTY_LIB_DIR}/glm glm)
 add_subdirectory(${THIRD_PARTY_LIB_DIR}/json json)
-add_subdirectory(${THIRD_PARTY_LIB_DIR}/tinygltf tinygltf)
+set(BUILD_SHARED_LIBS ON)
 add_subdirectory(${THIRD_PARTY_LIB_DIR}/assimp assimp)
 
 add_library(Future SHARED
@@ -56,7 +57,6 @@ target_include_directories(Future PUBLIC
         ${THIRD_PARTY_LIB_DIR}/stb/
         ${THIRD_PARTY_LIB_DIR}/glm/glm/
         ${THIRD_PARTY_LIB_DIR}/json/include
-        ${THIRD_PARTY_LIB_DIR}/tinygltf/
         ${THIRD_PARTY_LIB_DIR}/assimp/include
 )
 
@@ -65,7 +65,6 @@ target_link_libraries(Future PUBLIC SDL2::SDL2main)
 target_link_libraries(Future PUBLIC SDL2::SDL2)
 target_link_libraries(Future PUBLIC glfw)
 target_link_libraries(Future PUBLIC glm)
-target_link_libraries(Future PUBLIC tinygltf)
 target_link_libraries(Future PUBLIC assimp)
 
 add_custom_command(TARGET Future POST_BUILD

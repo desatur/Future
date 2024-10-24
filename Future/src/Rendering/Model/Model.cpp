@@ -105,7 +105,7 @@ namespace Future
         return Mesh(vertices, indices, textures);
     }
 
-    std::vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType type, char* typeName)
+    std::vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName)
     {
         std::vector<Texture> textures;
         for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
@@ -115,7 +115,7 @@ namespace Future
             std::string filename = std::string(str.C_Str());
             filename = directory + '/' + filename;
 
-            Texture texture(filename.c_str(), typeName, i);
+            Texture texture(filename.c_str(), typeName.c_str(), i);
             textures.push_back(texture);
         }
         return textures;
