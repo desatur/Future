@@ -8,7 +8,5 @@ namespace Future {
         window->Init();
         auto renderer = new Future::Renderer(window);
         renderer->Init();
-        //window->Init();
-        //window->Loop();
     }
 }

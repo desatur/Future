@@ -22,8 +22,6 @@
 
 namespace Future
 {
-    enum class Backend : std::uint8_t;
-
     class FE_API Renderer
     {
         public:

@@ -1,12 +1,14 @@
 #include "Model.hpp"
-
 #include <iostream>
 
 namespace Future
 {
     Model::Model(const char* file)
     {
-        directory = file;
+        model_path = file;
+        std::filesystem::path filePath(file);
+        directory = filePath.parent_path().string();
+        //std::cout << model_path << "\n";
         LoadModel();
     }
 
@@ -21,10 +23,11 @@ namespace Future
     void Model::LoadModel()
     {
         Assimp::Importer import;
-        const aiScene* scene = import.ReadFile(directory, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
+        const aiScene* scene = import.ReadFile(model_path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
 
         if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
         {
+            std::cout << import.GetErrorString() << "\n";
             return;
         }
 
@@ -33,11 +36,13 @@ namespace Future
 
     void Model::ProcessNode(const aiNode* node, const aiScene* scene)
     {
+        // process all the node's meshes (if any)
         for (unsigned int i = 0; i < node->mNumMeshes; i++)
         {
             aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
             meshes.push_back(ProcessMesh(mesh, scene));
         }
+        // then do the same for each of its children
         for (unsigned int i = 0; i < node->mNumChildren; i++)
         {
             ProcessNode(node->mChildren[i], scene);
@@ -85,12 +90,14 @@ namespace Future
         {
             aiFace face = mesh->mFaces[i];
             for (unsigned int j = 0; j < face.mNumIndices; j++)
+            {
                 indices.push_back(face.mIndices[j]);
+            }
         }
 
         if (mesh->mMaterialIndex >= 0)
         {
-            aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+            aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
 
             std::vector<Texture> diffuseMaps = LoadMaterialTextures(material, aiTextureType_DIFFUSE, "diffuse");
             textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
@@ -98,6 +105,7 @@ namespace Future
             std::vector<Texture> specularMaps = LoadMaterialTextures(material, aiTextureType_SPECULAR, "specular");
             textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 
+            // NOT IMPLEMENTED
             //std::vector<Texture> normalMaps = LoadMaterialTextures(material, aiTextureType_NORMALS, "normal");
             //textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
         }
@@ -108,14 +116,13 @@ namespace Future
     std::vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName)
     {
         std::vector<Texture> textures;
-        for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
+        for(unsigned int i = 0; i < mat->GetTextureCount(type); i++)
         {
-            aiString str;
+            aiString str; // This does not get full path
             mat->GetTexture(type, i, &str);
-            std::string filename = std::string(str.C_Str());
-            filename = directory + '/' + filename;
-
-            Texture texture(filename.c_str(), typeName.c_str(), i);
+            std::string texture_path = directory + '/' + std::string(str.C_Str());
+            std::cout << i << " : " << texture_path << "\n";
+            Texture texture(texture_path.c_str(), typeName.c_str(), i);
             textures.push_back(texture);
         }
         return textures;

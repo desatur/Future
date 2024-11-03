@@ -1,6 +1,5 @@
 #include "Mesh.hpp"
 
-
 namespace Future
 {
     Mesh::Mesh(std::vector <Vertex>& vertices, std::vector <GLuint>& indices, std::vector<Texture>& textures)

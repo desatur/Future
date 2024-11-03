@@ -1,21 +1,26 @@
 {
-    // See https://go.microsoft.com/fwlink/?LinkId=733558
-    // for the documentation about the tasks.json format
     "version": "2.0.0",
     "tasks": [
+
         {
             "label": "Build sandbox",
             "type": "shell",
-            "command": "cmake --build ./build --config Debug --target FutureSandbox --"
+            "command": "cmd.exe",
+            "args": [
+                "/c",
+                "cmake --build ./build --config Debug --target FutureSandbox"
+            ]
         },
+
         {
             "label": "Build and run sandbox",
             "type": "shell",
             "command": "cmd.exe",
             "args": [
                 "/c",
-                "cmake --build ./build --config Debug --target FutureSandbox && ./build/Debug/FutureSandbox.exe"
+                "cmake --build ./build --config Debug --target FutureSandbox && .\\build\\FutureSandbox\\Debug\\FutureSandbox.exe"
             ]
         }
+
     ]
 }

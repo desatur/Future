@@ -1,6 +1,7 @@
 #ifndef TEXTURE_HPP
 #define TEXTURE_HPP
 
+#include <iostream>
 #include <glad/glad.h>
 #include <stb_image.h>
 #include "../../Log.hpp"

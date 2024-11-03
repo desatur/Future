@@ -1,5 +1,4 @@
 #include "Renderer.hpp"
-#define BACKEND "OPENGL"
 
 namespace Future
 {
@@ -40,7 +39,7 @@ namespace Future
 
         Camera m_mainCamera(1920, 1080, glm::vec3(0.0f, 0.0f, 1.0f));
 
-        Model test("Sponza/glTF/sponza.gltf");
+        Model demo("D:/Sponza/glTF/sponza.gltf"); // Testing model
 
         while (m_window->IsRunning())
         {
@@ -49,7 +48,7 @@ namespace Future
 
             m_mainCamera.UpdateMatrix(45.0f, 0.1f, 100.0f); // Updates and exports the camera matrix to the Vertex Shader
 
-            test.Draw(m_shaderProgram, m_mainCamera);
+            demo.Draw(m_shaderProgram, m_mainCamera);
 
             SDL_Event e = m_window->Tick();
         }

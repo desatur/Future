@@ -2,20 +2,20 @@
 
 namespace Future
 {
-	Texture::Texture(const char* image, const char* texType, GLuint slot)
+	Texture::Texture(const char* image_path, const char* texType, GLuint slot)
 	{
 		type = texType;
 		int widthImg, heightImg, numColCh;
 		stbi_set_flip_vertically_on_load(true);
-		unsigned char* bytes = stbi_load(image, &widthImg, &heightImg, &numColCh, 0);
+		unsigned char* bytes = stbi_load(image_path, &widthImg, &heightImg, &numColCh, 0);
 
 		glGenTextures(1, &ID);
 		// Assigns the texture to a Texture Unit
 		glActiveTexture(GL_TEXTURE0 + slot);
-		unit == slot;
+		unit = slot; // TODO: check if ==
 		glBindTexture(GL_TEXTURE_2D, ID);
 
-		// Configures the type of algorithm that is used to make the image smaller or bigger
+		// Configures the type of algorithm that is used to make the image_path smaller or bigger
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
@@ -68,8 +68,8 @@ namespace Future
 				bytes
 			);
 		else
-			throw std::invalid_argument("Automatic Texture type recognition failed"); // I fucking hate this slow(?) ass throw
-
+			std::cout << "Automatic Texture type recognition failed | numColCh: " << numColCh << " dims: " << widthImg << "x" << heightImg << "\n";
+			//throw std::invalid_argument("Automatic Texture type recognition failed"); // I fucking hate this slow(?) ass throw
 
 		// Deletes the image data as it is already in the OpenGL Texture object
 		stbi_image_free(bytes);
