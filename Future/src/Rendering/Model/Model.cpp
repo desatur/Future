@@ -3,12 +3,9 @@
 
 namespace Future
 {
-    Model::Model(const char* file)
+    Model::Model(const char *path)
     {
-        model_path = file;
-        std::filesystem::path filePath(file);
-        directory = filePath.parent_path().string();
-        //std::cout << model_path << "\n";
+        model_path = path;
         LoadModel();
     }
 
@@ -23,13 +20,16 @@ namespace Future
     void Model::LoadModel()
     {
         Assimp::Importer import;
-        const aiScene* scene = import.ReadFile(model_path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
+        const aiScene *scene = import.ReadFile(model_path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
 
         if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
         {
             std::cout << import.GetErrorString() << "\n";
             return;
         }
+        std::string path_str = model_path;
+        std::string strdirectory = path_str.substr(0, path_str.find_last_of('/'));
+        directory = strdirectory.c_str();
 
         ProcessNode(scene->mRootNode, scene);
     }
@@ -99,6 +99,7 @@ namespace Future
         {
             aiMaterial *material = scene->mMaterials[mesh->mMaterialIndex];
 
+            // TODO: Make typeName a enum that is a byte to decrease memory usage and increase texture loading
             std::vector<Texture> diffuseMaps = LoadMaterialTextures(material, aiTextureType_DIFFUSE, "diffuse");
             textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 
@@ -115,13 +116,14 @@ namespace Future
 
     std::vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName)
     {
+        aiString str;
         std::vector<Texture> textures;
-        for(unsigned int i = 0; i < mat->GetTextureCount(type); i++)
+        unsigned int textureCount = mat->GetTextureCount(type);
+
+        for(unsigned int i = 0; i < textureCount; i++)
         {
-            aiString str; // This does not get full path
             mat->GetTexture(type, i, &str);
             std::string texture_path = directory + '/' + std::string(str.C_Str());
-            std::cout << i << " : " << texture_path << "\n";
             Texture texture(texture_path.c_str(), typeName.c_str(), i);
             textures.push_back(texture);
         }

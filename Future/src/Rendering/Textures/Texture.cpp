@@ -68,8 +68,7 @@ namespace Future
 				bytes
 			);
 		else
-			std::cout << "Automatic Texture type recognition failed | numColCh: " << numColCh << " dims: " << widthImg << "x" << heightImg << "\n";
-			//throw std::invalid_argument("Automatic Texture type recognition failed"); // I fucking hate this slow(?) ass throw
+			throw std::invalid_argument("Automatic Texture type recognition failed");
 
 		// Deletes the image data as it is already in the OpenGL Texture object
 		stbi_image_free(bytes);
