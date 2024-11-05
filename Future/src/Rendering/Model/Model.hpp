@@ -22,7 +22,6 @@ namespace Future
 
         void Draw(Shaders& shader, Camera& camera);
     private:
-        // model data
         std::vector<Mesh> meshes;
         const char *model_path;
         std::string directory;

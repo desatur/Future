@@ -35,7 +35,18 @@ namespace Future
     {
         // Bind shader to be able to access uniforms
         shader.Activate();
-        VAO.Bind();
+
+        // Validate that the shader program is active and valid
+        // TODO: Remove or build with Debug only
+        glValidateProgram(shader.ID);
+        GLint isValid;
+        glGetProgramiv(shader.ID, GL_VALIDATE_STATUS, &isValid);
+        if (isValid == GL_FALSE) {
+            char infoLog[512];
+            glGetProgramInfoLog(shader.ID, 512, NULL, infoLog);
+            std::cerr << "ERROR::SHADER::PROGRAM::VALIDATION_FAILED\n" << infoLog << std::endl;
+            return;
+        }
 
         // Keep track of how many of each type of textures we have
         unsigned int numDiffuse = 0;

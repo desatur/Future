@@ -5,7 +5,7 @@
 #include "../../../thirdParty/glm/glm/vec3.hpp"
 #include "../../../thirdParty/glfw/include/GLFW/glfw3.h"
 #include "../../../thirdParty/glm/glm/glm.hpp"
-#include "../../../thirdParty/glad/include/glad/glad.h"
+#include <glad/glad.h>
 #include "../../../thirdParty/glm/glm/gtc/type_ptr.hpp"
 #include "../../../thirdParty/glm/glm/gtc/matrix_transform.hpp"
 #include "../../../thirdParty/glm/glm/gtc/type_ptr.hpp"

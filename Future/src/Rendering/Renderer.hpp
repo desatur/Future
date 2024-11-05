@@ -7,8 +7,7 @@
 #include <../../../thirdParty/glm/glm/glm.hpp>
 #include <../../../thirdParty/glm/glm/gtc/matrix_transform.hpp>
 #include <../../../thirdParty/glm/glm/gtc/type_ptr.hpp>
-#include <../../../thirdParty/glad/include/glad/glad.h>
-#include <../../../thirdParty/glfw/include/GLFW/glfw3.h>
+#include <glad/glad.h>
 #include <../../../thirdParty/glm/glm/glm.hpp>
 #include <../../../thirdParty/glm/glm/gtc/matrix_transform.hpp>
 #include <../../../thirdParty/glm/glm/gtc/type_ptr.hpp>
@@ -33,6 +32,8 @@ namespace Future
         private:
             static void PreInitBackend();
             static void InitBackend();
+            static void GLAPIENTRY glDebugOutput(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam);
+            static void Assert();
             Window* m_window;
             Camera* m_mainCamera{};
             Shaders* m_shaderProgram{};

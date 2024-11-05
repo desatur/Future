@@ -1,13 +1,13 @@
 #include "Shaders.hpp"
-
 #include <fstream>
-#include <stddef.h>
-#include <../../../thirdParty/glad/include/glad/glad.h>
+#include <iostream>
+#include <string>
+#include <glad/glad.h>
 #include "../Log.hpp"
 
 namespace Future
 {
-    Shaders::Shaders(const char* vertexPath, const char* fragmentPath)
+    Shaders::Shaders(const char *vertexPath, const char *fragmentPath)
     {
         std::string vertexCode = GetFileContents(vertexPath);
         std::string fragmentCode = GetFileContents(fragmentPath);
@@ -15,29 +15,26 @@ namespace Future
         const char* vertexShaderCode = vertexCode.c_str();
         const char* fragmentShaderCode = fragmentCode.c_str();
 
-        // Create Vertex Shader Object and get its reference
+        // Create and compile the vertex shader
         GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-        // Attach Vertex Shader source to the Vertex Shader Object
         glShaderSource(vertexShader, 1, &vertexShaderCode, NULL);
-        // Compile the Vertex Shader into machine code
         glCompileShader(vertexShader);
+        CheckCompileErrors(vertexShader, "VERTEX");
 
-        // Create Fragment Shader Object and get its reference
+        // Create and compile the fragment shader
         GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-        // Attach Fragment Shader source to the Fragment Shader Object
         glShaderSource(fragmentShader, 1, &fragmentShaderCode, NULL);
-        // Compile the Vertex Shader into machine code
         glCompileShader(fragmentShader);
+        CheckCompileErrors(fragmentShader, "FRAGMENT");
 
-        // Create Shader Program Object and get its reference
+        // Create and link the shader program
         ID = glCreateProgram();
-        // Attach the Vertex and Fragment Shaders to the Shader Program
         glAttachShader(ID, vertexShader);
         glAttachShader(ID, fragmentShader);
-        // Wrap-up/Link all the shaders together into the Shader Program
         glLinkProgram(ID);
+        CheckCompileErrors(ID, "PROGRAM");
 
-        // Delete the now useless Vertex and Fragment Shader objects
+        // Delete the individual shaders after linking
         glDeleteShader(vertexShader);
         glDeleteShader(fragmentShader);
     }
@@ -68,28 +65,30 @@ namespace Future
         glDeleteProgram(ID);
     }
 
-    void Shaders::CompileErrors(unsigned int shader, const char* type)
+    void Shaders::CheckCompileErrors(GLuint shader, std::string type)
     {
-        // Stores status of compilation
-        GLint hasCompiled;
-        // Character array to store error message in
-        char infoLog[1024];
+        GLint success;
+        GLchar infoLog[1024];
         if (type != "PROGRAM")
         {
-            glGetShaderiv(shader, GL_COMPILE_STATUS, &hasCompiled);
-            if (hasCompiled == GL_FALSE)
+            glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+            if (!success)
             {
                 glGetShaderInfoLog(shader, 1024, NULL, infoLog);
-                FE_CORE_ERROR("SHADER_LINKING_ERROR" /*+ << type << "\n" << infoLog << std::endl*/);
+                std::cerr << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n" 
+                          << infoLog << "\n -- --------------------------------------------------- -- " 
+                          << std::endl;
             }
         }
         else
         {
-            glGetProgramiv(shader, GL_LINK_STATUS, &hasCompiled);
-            if (hasCompiled == GL_FALSE)
+            glGetProgramiv(shader, GL_LINK_STATUS, &success);
+            if (!success)
             {
                 glGetProgramInfoLog(shader, 1024, NULL, infoLog);
-                FE_CORE_ERROR("SHADER_LINKING_ERROR" /*+ type + "\n" + infoLog*/);
+                std::cerr << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" 
+                          << infoLog << "\n -- --------------------------------------------------- -- " 
+                          << std::endl;
             }
         }
     }

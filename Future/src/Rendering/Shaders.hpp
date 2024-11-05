@@ -2,7 +2,7 @@
 #define SHADERS_HPP
 
 #include <fstream>
-#include <../../../thirdParty/glad/include/glad/glad.h>
+#include <glad/glad.h>
 
 namespace Future
 {
@@ -14,7 +14,7 @@ namespace Future
             void Activate();
             void Delete();
         private:
-            void CompileErrors(unsigned int shader, const char* type);
+            void CheckCompileErrors(GLuint shader, std::string type);
             std::string GetFileContents(const char* filename);
     };
 }
