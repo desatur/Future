@@ -10,8 +10,8 @@ namespace Future
 
         VAO.Bind();
 
-        VBO VBO (vertices);
-        EBO EBO (indices);
+        VBO VBO (Mesh::vertices);
+        EBO EBO (Mesh::indices);
 
         VAO.LinkAttrib(VBO, 0, 3, GL_FLOAT, sizeof(Vertex), (void*)0); // Position
         VAO.LinkAttrib(VBO, 1, 3, GL_FLOAT, sizeof(Vertex), (void*)(3 * sizeof(float))); // Color
@@ -35,6 +35,8 @@ namespace Future
     {
         // Bind shader to be able to access uniforms
         shader.Activate();
+
+        VAO.Bind(); // TODO: Do not foreach this
 
         // Validate that the shader program is active and valid
         // TODO: Remove or build with Debug only
@@ -88,7 +90,8 @@ namespace Future
         glUniformMatrix4fv(glGetUniformLocation(shader.ID, "model"), 1, GL_FALSE, glm::value_ptr(matrix));
 
         // Draw the actual mesh
-        glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+        // Must be one of GL_UNSIGNED_BYTE, GL_UNSIGNED_SHORT, or GL_UNSIGNED_INT. 
+        glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, indices.data());
+        VAO.Unbind(); // TODO: Do not foreach this
     }
-
 } // Future
