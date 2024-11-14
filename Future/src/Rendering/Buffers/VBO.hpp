@@ -11,11 +11,12 @@ namespace Future
     class VBO
     {
         public:
-            // Reference ID of the Vertex Buffer Object
             GLuint ID;
-            // Constructor that generates a Vertex Buffer Object and links it to vertices
+            VBO();
             VBO(std::vector<Vertex>& vertices);
+            std::vector<Vertex> vertices;
 
+            void Update();
             void Bind();
             void Unbind();
             void Delete();

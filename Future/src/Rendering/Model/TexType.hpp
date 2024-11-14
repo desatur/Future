@@ -3,8 +3,6 @@
 
 #include <cstdint>
 
-// W.I.P.
-
 enum class TexType : std::uint8_t {
     UNDEFINED = 0,
     DIFFUSE = 1,

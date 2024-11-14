@@ -22,17 +22,17 @@ namespace Future {
             glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
             glm::mat4 cameraMatrix = glm::mat4(1.0f);
 
-            float speed = 0.1f;
-	        float sensitivity = 100.0f;
+            float speed = 0.25f;
+	        float sensitivity = 5.0f;
 
             // Prevents the camera from jumping around when first clicking left click
             bool firstClick = true;
 
             // Stores the width and height of the window
-            int width, height;
+            float width, height;
 
             // Camera constructor to set up initial values
-            Camera(int width, int height, glm::vec3 position);
+            Camera(float width, float height, const glm::vec3 position);
 
             // Updates and exports the camera matrix to the Vertex Shader
             void UpdateMatrix(float FOVdeg, float nearPlane, float farPlane);

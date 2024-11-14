@@ -11,9 +11,10 @@ namespace Future
 
     void Model::Draw(Shaders& shader, Camera& camera)
     {
+        // Go over all meshes and draw each one
         for (unsigned int i = 0; i < meshes.size(); i++)
         {
-            meshes[i].Draw(shader, camera);
+            meshes[i].Draw(shader);
         }
     }
 

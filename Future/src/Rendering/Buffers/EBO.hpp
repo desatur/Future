@@ -9,8 +9,11 @@ namespace Future
     {
         public:
             GLuint ID;
+            EBO();
             EBO(std::vector<GLuint>& indices);
+            std::vector<GLuint> indices;
 
+            void Update();
             void Bind();
             void Unbind();
             void Delete();

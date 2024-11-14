@@ -3,7 +3,7 @@
 
 namespace Future
 {
-	Camera::Camera(int width, int height, const glm::vec3 position)
+	Camera::Camera(float width, float height, const glm::vec3 position)
 	{
 		Camera::width = width;
 		Camera::height = height;
@@ -12,8 +12,6 @@ namespace Future
 
 	void Camera::UpdateMatrix(float FOVdeg, const float nearPlane, const float farPlane)
 	{
-		const float aspectRatio = static_cast<float>(width) / static_cast<float>(height);
-
 		// Initializes matrices since otherwise they will be the null matrix
 		glm::mat4 view = glm::mat4(1.0f);
 		glm::mat4 projection = glm::mat4(1.0f);
@@ -22,7 +20,7 @@ namespace Future
 		view = glm::lookAt(Position, Position + Orientation, Up);
 
 		// Adds perspective to the scene
-		projection = glm::perspective(glm::radians(FOVdeg), aspectRatio, nearPlane, farPlane);
+		projection = glm::perspective(glm::radians(FOVdeg), width / height, nearPlane, farPlane);
 		
 		cameraMatrix = projection * view;
 	}
@@ -39,7 +37,7 @@ namespace Future
 
 	void Camera::DebugMove()
 	{
-		float speed = 0.4f;
+		float speed = 0.01f;
 		const Uint8* state = SDL_GetKeyboardState(NULL);
 
 		// Handles key inputs

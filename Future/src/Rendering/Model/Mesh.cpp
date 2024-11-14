@@ -2,59 +2,45 @@
 
 namespace Future
 {
-    Mesh::Mesh(std::vector <Vertex>& vertices, std::vector <GLuint>& indices, std::vector<Texture>& textures)
+    Mesh::Mesh(std::vector <Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures)
     {
-        Mesh::vertices = vertices;
-        Mesh::indices = indices;
-        Mesh::textures = textures;
+        this->vertices = vertices;
+        this->indices = indices;
+        this->textures = textures;
 
-        VAO.Bind();
-
-        VBO VBO (Mesh::vertices);
-        EBO EBO (Mesh::indices);
-
-        VAO.LinkAttrib(VBO, 0, 3, GL_FLOAT, sizeof(Vertex), (void*)0); // Position
-        VAO.LinkAttrib(VBO, 1, 3, GL_FLOAT, sizeof(Vertex), (void*)(3 * sizeof(float))); // Color
-        VAO.LinkAttrib(VBO, 2, 2, GL_FLOAT, sizeof(Vertex), (void*)(6 * sizeof(float))); // Texture Coordinate
-        VAO.LinkAttrib(VBO, 3, 2, GL_FLOAT, sizeof(Vertex), (void*)(9 * sizeof(float))); // Normals
-
-        VAO.Unbind();
-        VBO.Unbind();
-        EBO.Unbind();
+        SetupMesh();
     }
 
-    void Mesh::Draw
-    (
-        Shaders& shader,
-        Camera& camera,
-        glm::mat4 matrix,
-        glm::vec3 translation,
-        glm::quat rotation,
-        glm::vec3 scale
-    )
+    void Mesh::SetupMesh()
     {
-        // Bind shader to be able to access uniforms
+        this->VAO.Bind();
+        this->VBO.Bind();
+        this->EBO.Bind();
+        
+        this->VBO.vertices = this->vertices;
+        this->VBO.Update();
+
+        this->EBO.indices = this->indices;
+        this->EBO.Update();
+
+        this->VAO.LinkAttrib(this->VBO, 0, 3, GL_FLOAT, sizeof(Vertex), (void*)0);                            // Vertex positions
+        this->VAO.LinkAttrib(this->VBO, 1, 3, GL_FLOAT, sizeof(Vertex), (void*)(3 * sizeof(float)));          // Vertex normals
+        this->VAO.LinkAttrib(this->VBO, 2, 3, GL_FLOAT, sizeof(Vertex), (void*)(6 * sizeof(float)));          // Vertex color
+        this->VAO.LinkAttrib(this->VBO, 3, 2, GL_FLOAT, sizeof(Vertex), (void*)(9 * sizeof(float)));          // vertex texture coords
+
+        this->VAO.Unbind();
+        this->VBO.Unbind();
+        this->EBO.Unbind();
+    }
+
+    void Mesh::Draw(Shaders &shader) 
+    {
         shader.Activate();
+        this->VAO.Bind();
 
-        VAO.Bind(); // TODO: Do not foreach this
-
-        // Validate that the shader program is active and valid
-        // TODO: Remove or build with Debug only
-        glValidateProgram(shader.ID);
-        GLint isValid;
-        glGetProgramiv(shader.ID, GL_VALIDATE_STATUS, &isValid);
-        if (isValid == GL_FALSE) {
-            char infoLog[512];
-            glGetProgramInfoLog(shader.ID, 512, NULL, infoLog);
-            std::cerr << "ERROR::SHADER::PROGRAM::VALIDATION_FAILED\n" << infoLog << std::endl;
-            return;
-        }
-
-        // Keep track of how many of each type of textures we have
         unsigned int numDiffuse = 0;
         unsigned int numSpecular = 0;
-
-        for (unsigned int i = 0; i < textures.size(); i++)
+        for(unsigned int i = 0; i < textures.size(); i++)
         {
             std::string num;
             std::string type = textures[i].type;
@@ -64,34 +50,15 @@ namespace Future
             }
             else if (type == "specular")
             {
+                return; // Temporary
                 num = std::to_string(numSpecular++);
             }
-            textures[i].texUnit(shader, (type + num).c_str(), i);
+            //textures[i].texUnit(shader, (type + num).c_str(), i);
+            textures[i].texUnit(shader, "diffuseTex", i); // Temporary
             textures[i].Bind();
         }
-        // Take care of the camera Matrix
-        glUniform3f(glGetUniformLocation(shader.ID, "camPos"), camera.Position.x, camera.Position.y, camera.Position.z);
-        camera.Matrix(shader, "camMatrix");
 
-        // Initialize matrices
-        glm::mat4 trans = glm::mat4(1.0f);
-        glm::mat4 rot = glm::mat4(1.0f);
-        glm::mat4 sca = glm::mat4(1.0f);
-
-        // Transform the matrices to their correct form
-        trans = glm::translate(trans, translation);
-        rot = glm::mat4_cast(rotation);
-        sca = glm::scale(sca, scale);
-
-        // Push the matrices to the vertex shader
-        glUniformMatrix4fv(glGetUniformLocation(shader.ID, "translation"), 1, GL_FALSE, glm::value_ptr(trans));
-        glUniformMatrix4fv(glGetUniformLocation(shader.ID, "rotation"), 1, GL_FALSE, glm::value_ptr(rot));
-        glUniformMatrix4fv(glGetUniformLocation(shader.ID, "scale"), 1, GL_FALSE, glm::value_ptr(sca));
-        glUniformMatrix4fv(glGetUniformLocation(shader.ID, "model"), 1, GL_FALSE, glm::value_ptr(matrix));
-
-        // Draw the actual mesh
-        // Must be one of GL_UNSIGNED_BYTE, GL_UNSIGNED_SHORT, or GL_UNSIGNED_INT. 
-        glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, indices.data());
-        VAO.Unbind(); // TODO: Do not foreach this
-    }
+        glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, 0);
+        this->VAO.Unbind();
+    }  
 } // Future

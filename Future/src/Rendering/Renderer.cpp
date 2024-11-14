@@ -82,7 +82,7 @@ namespace Future
         glFrontFace(GL_CCW);  // CCW is common
         glClearDepth(1.0); // Clear depth before drawing stuff
 
-        Camera m_mainCamera(1920, 1080, glm::vec3(0.0f, 0.0f, 0.0f));
+        Camera m_mainCamera(1920, 1080, glm::vec3(0.0f, 0.0f, 1.0f));
 
         Model demo("D:/Sponza/glTF/sponza.gltf"); // Testing model
 
@@ -91,9 +91,9 @@ namespace Future
             glClearColor(0.0f, 0.0f, 0.1f, 1.0f); // Clear framebuffer
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // Clear those buffers
 
-            m_mainCamera.UpdateMatrix(90.0f, 0.1f, 1000.0f); // Updates and exports the camera matrix to the Vertex Shader
-
             demo.Draw(m_shaderProgram, m_mainCamera);
+            m_mainCamera.UpdateMatrix(45.0f, 0.1f, 10000.0f); // Updates and exports the camera matrix to the Vertex Shader
+            m_mainCamera.Matrix(m_shaderProgram, "camMatrix");
 
             SDL_Event e = m_window->Tick();
             m_mainCamera.DebugMove();
