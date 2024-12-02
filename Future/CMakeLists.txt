@@ -29,6 +29,8 @@ add_library(Future SHARED
         src/Log.hpp
         src/Window/Window.cpp
         src/Window/Window.hpp
+        src/Rendering/Instances.cpp
+        src/Rendering/Instances.hpp
         src/Rendering/Renderer.cpp
         src/Rendering/Renderer.hpp
         src/Rendering/Shaders.cpp
@@ -39,6 +41,14 @@ add_library(Future SHARED
         src/Rendering/Buffers/VAO.hpp
         src/Rendering/Buffers/EBO.cpp
         src/Rendering/Buffers/EBO.hpp
+        src/Rendering/Buffers/FBO.cpp
+        src/Rendering/Buffers/FBO.hpp
+        src/Rendering/Buffers/RBO.cpp
+        src/Rendering/Buffers/RBO.hpp
+        src/Rendering/Buffers/Framebuffer/RectangleVAO.cpp
+        src/Rendering/Buffers/Framebuffer/RectangleVAO.hpp
+        src/Rendering/Buffers/Framebuffer/RectangleVBO.cpp
+        src/Rendering/Buffers/Framebuffer/RectangleVBO.hpp
         src/Rendering/Textures/Texture.cpp
         src/Rendering/Textures/Texture.hpp
         src/Rendering/Camera.cpp

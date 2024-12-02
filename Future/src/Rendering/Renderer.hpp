@@ -1,14 +1,14 @@
-#ifndef OPENGL_HPP
-#define OPENGL_HPP
+#ifndef RENDERER_HPP
+#define RENDERER_HPP
 
+#pragma once
 #include "../Core.hpp"
 #include "../Window/Window.hpp"
 #include <../../../thirdParty/stb/stb_image.h>
-#include <../../../thirdParty/glm/glm/glm.hpp>
 #include <../../../thirdParty/glm/glm/gtc/matrix_transform.hpp>
 #include <../../../thirdParty/glm/glm/gtc/type_ptr.hpp>
 #include <glad/glad.h>
-#include <../../../thirdParty/glm/glm/glm.hpp>
+#include <../glm/glm.hpp>
 #include <../../../thirdParty/glm/glm/gtc/matrix_transform.hpp>
 #include <../../../thirdParty/glm/glm/gtc/type_ptr.hpp>
 #include "Shaders.hpp"
@@ -18,6 +18,10 @@
 #include "Buffers/EBO.hpp"
 #include "Buffers/VAO.hpp"
 #include "Buffers/VBO.hpp"
+#include "Buffers/FBO.hpp"
+#include "Buffers/RBO.hpp"
+#include "Buffers/Framebuffer/RectangleVBO.hpp"
+#include "Buffers/Framebuffer/RectangleVAO.hpp"
 
 namespace Future
 {
@@ -29,15 +33,20 @@ namespace Future
 
             void Init();
             [[nodiscard]] Camera* GetMainCamera() const { return m_mainCamera; }
+            Shaders* defaultShaderProgram;
+            Shaders* framebufferShaderProgram;
         private:
-            static void PreInitBackend();
-            static void InitBackend();
+            void PreInitBackend();
+            void InitBackend();
+            void ConstructPipeline();
             static void GLAPIENTRY glDebugOutput(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam);
-            static void Assert();
+            GLsizei width;
+            GLsizei height;
             Window* m_window;
-            Camera* m_mainCamera{};
-            Shaders* m_shaderProgram{};
+            Camera* m_mainCamera;
+            FBO* mainFramebuffer;
+            FBO* postProcessingFramebuffer;
     };
 }
 
-#endif //OPENGL_HPP
+#endif //RENDERER_HPP

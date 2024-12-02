@@ -18,7 +18,7 @@ namespace Future
         std::vector<GLuint> indices;
         std::vector<Texture> textures;
         Mesh(std::vector <Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures);
-        void Draw(Shaders &shader);
+        void Draw(Shaders &shader, Camera &camera, glm::mat4 matrix, glm::vec3 translation, glm::quat rotation, glm::vec3 scale);
 
         private:
         Future::VAO VAO;

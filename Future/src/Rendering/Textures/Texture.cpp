@@ -6,7 +6,7 @@ namespace Future
 	{
 		type = texType;
 		int widthImg, heightImg, numColCh;
-		stbi_set_flip_vertically_on_load(true);
+		//stbi_set_flip_vertically_on_load(true);
 		unsigned char* bytes = stbi_load(image_path, &widthImg, &heightImg, &numColCh, 0);
 
 		glGenTextures(1, &ID);
@@ -16,19 +16,32 @@ namespace Future
 		glBindTexture(GL_TEXTURE_2D, ID);
 
 		// Configures the type of algorithm that is used to make the image_path smaller or bigger
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 		// Configures the way the texture repeats (if it does at all)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-		if (numColCh == 4)
+		if (type == "normal") // prevents SRGB from deforming normals
 			glTexImage2D
 			(
 				GL_TEXTURE_2D,
 				0,
+				GL_SRGB,
+				widthImg,
+				heightImg,
+				0,
 				GL_RGBA,
+				GL_UNSIGNED_BYTE,
+				bytes
+			);
+		else if (numColCh == 4)
+			glTexImage2D
+			(
+				GL_TEXTURE_2D,
+				0,
+				GL_SRGB_ALPHA,
 				widthImg,
 				heightImg,
 				0,
@@ -41,7 +54,7 @@ namespace Future
 			(
 				GL_TEXTURE_2D,
 				0,
-				GL_RGBA,
+				GL_SRGB_ALPHA,
 				widthImg,
 				heightImg,
 				0,
@@ -54,7 +67,7 @@ namespace Future
 			(
 				GL_TEXTURE_2D,
 				0,
-				GL_RGBA,
+				GL_SRGB_ALPHA,
 				widthImg,
 				heightImg,
 				0,
@@ -63,9 +76,9 @@ namespace Future
 				bytes
 			);
 		else
-			throw std::invalid_argument("Automatic Texture type recognition failed");
+			return;
 		
-		//glGenerateMipmap(texType);
+		glGenerateMipmap(GL_TEXTURE_2D);
 		stbi_image_free(bytes);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}

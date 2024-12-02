@@ -37,7 +37,7 @@ namespace Future
 
 	void Camera::DebugMove()
 	{
-		float speed = 0.01f;
+		float speed = 0.1f;
 		const Uint8* state = SDL_GetKeyboardState(NULL);
 
 		// Handles key inputs
@@ -63,7 +63,7 @@ namespace Future
 		{
 			// Hides mouse cursor
 			SDL_ShowCursor(SDL_DISABLE);
-
+			
 			// Stores the coordinates of the cursor
 			int mouseX, mouseY;
 			SDL_GetMouseState(&mouseX, &mouseY);
@@ -85,13 +85,11 @@ namespace Future
 			Orientation = glm::rotate(Orientation, glm::radians(-rotY), Up);
 
 			// Sets mouse cursor to the middle of the screen so that it doesn't end up roaming around
-			//SDL_WarpMouseInWindow(window, width / 2, height / 2);
+			//SDL_WarpMouseInWindow(0, width / 2, height / 2);
 		}
-		else // If left mouse button is released
+		else
 		{
-			// Unhides cursor since camera is not looking around anymore
 			SDL_ShowCursor(SDL_ENABLE);
-			// Makes sure the next time the camera looks around it doesn't jump
 			firstClick = true;
 		}
 	}

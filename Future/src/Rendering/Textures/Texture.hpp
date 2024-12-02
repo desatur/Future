@@ -5,7 +5,6 @@
 #include <glad/glad.h>
 #include <stb_image.h>
 #include "../../Log.hpp"
-
 #include "../Shaders.hpp"
 
 namespace Future

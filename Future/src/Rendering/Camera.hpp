@@ -22,8 +22,8 @@ namespace Future {
             glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
             glm::mat4 cameraMatrix = glm::mat4(1.0f);
 
-            float speed = 0.25f;
-	        float sensitivity = 5.0f;
+            float speed = 0.1f;
+	        float sensitivity = 0.25f;
 
             // Prevents the camera from jumping around when first clicking left click
             bool firstClick = true;

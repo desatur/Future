@@ -1,6 +1,8 @@
 {
-    "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
+        "vector": "cpp",
+        "xstring": "cpp",
+        "ostream": "cpp",
         "algorithm": "cpp",
         "any": "cpp",
         "array": "cpp",
@@ -53,7 +55,6 @@
         "new": "cpp",
         "numeric": "cpp",
         "optional": "cpp",
-        "ostream": "cpp",
         "queue": "cpp",
         "random": "cpp",
         "ranges": "cpp",
@@ -78,7 +79,6 @@
         "utility": "cpp",
         "valarray": "cpp",
         "variant": "cpp",
-        "vector": "cpp",
         "xfacet": "cpp",
         "xhash": "cpp",
         "xiosbase": "cpp",
@@ -90,9 +90,9 @@
         "xlocnum": "cpp",
         "xloctime": "cpp",
         "xmemory": "cpp",
-        "xstring": "cpp",
         "xtr1common": "cpp",
         "xtree": "cpp",
         "xutility": "cpp"
-    }
+    },
+    "dotnet.defaultSolution": "disable"
 }

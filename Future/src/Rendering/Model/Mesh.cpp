@@ -33,13 +33,14 @@ namespace Future
         this->EBO.Unbind();
     }
 
-    void Mesh::Draw(Shaders &shader) 
+    void Mesh::Draw(Shaders &shader, Camera &camera, glm::mat4 matrix, glm::vec3 translation, glm::quat rotation, glm::vec3 scale)
     {
         shader.Activate();
         this->VAO.Bind();
 
         unsigned int numDiffuse = 0;
         unsigned int numSpecular = 0;
+        unsigned int numNormal = 0;
         for(unsigned int i = 0; i < textures.size(); i++)
         {
             std::string num;
@@ -47,16 +48,34 @@ namespace Future
             if (type == "diffuse")
             {
                 num = std::to_string(numDiffuse++);
+                textures[i].Bind();
             }
             else if (type == "specular")
             {
-                return; // Temporary
                 num = std::to_string(numSpecular++);
             }
-            //textures[i].texUnit(shader, (type + num).c_str(), i);
-            textures[i].texUnit(shader, "diffuseTex", i); // Temporary
-            textures[i].Bind();
+            else if (type == "normal")
+            {
+                num = std::to_string(numNormal++);
+            }
+            textures[i].texUnit(shader, (type + num).c_str(), i);
         }
+
+        // Initialize matrices
+        glm::mat4 trans = glm::mat4(1.0f);
+        glm::mat4 rot = glm::mat4(1.0f);
+        glm::mat4 sca = glm::mat4(1.0f);
+
+        // Transform the matrices to their correct form
+        trans = glm::translate(trans, translation);
+        rot = glm::mat4_cast(rotation);
+        sca = glm::scale(sca, scale);
+
+        // Push the matrices to the vertex shader
+        glUniformMatrix4fv(glGetUniformLocation(shader.ID, "translation"), 1, GL_FALSE, glm::value_ptr(trans));
+        glUniformMatrix4fv(glGetUniformLocation(shader.ID, "rotation"), 1, GL_FALSE, glm::value_ptr(rot));
+        glUniformMatrix4fv(glGetUniformLocation(shader.ID, "scale"), 1, GL_FALSE, glm::value_ptr(sca));
+        glUniformMatrix4fv(glGetUniformLocation(shader.ID, "model"), 1, GL_FALSE, glm::value_ptr(matrix));
 
         glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, 0);
         this->VAO.Unbind();
