@@ -12,7 +12,7 @@
 #include <../../../thirdParty/glm/glm/gtc/matrix_transform.hpp>
 #include <../../../thirdParty/glm/glm/gtc/type_ptr.hpp>
 #include "Shaders.hpp"
-#include "Model/Model.hpp"
+#include "Mesh/Model.hpp"
 #include "Camera.hpp"
 #include "Shaders.hpp"
 #include "Buffers/EBO.hpp"

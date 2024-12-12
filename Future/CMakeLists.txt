@@ -10,11 +10,10 @@ project(Future)
 
 add_subdirectory(${THIRD_PARTY_LIB_DIR}/spdlog spdlog)
 add_subdirectory(${THIRD_PARTY_LIB_DIR}/SDL SDL)
-add_subdirectory(${THIRD_PARTY_LIB_DIR}/glfw glfw)
 add_subdirectory(${THIRD_PARTY_LIB_DIR}/glm glm)
-add_subdirectory(${THIRD_PARTY_LIB_DIR}/json json)
 set(BUILD_SHARED_LIBS ON)
 add_subdirectory(${THIRD_PARTY_LIB_DIR}/assimp assimp)
+#add_subdirectory(${THIRD_PARTY_LIB_DIR}/imgui_cmake imgui)
 
 add_library(Future SHARED
         # GLAD
@@ -53,10 +52,10 @@ add_library(Future SHARED
         src/Rendering/Textures/Texture.hpp
         src/Rendering/Camera.cpp
         src/Rendering/Camera.hpp
-        src/Rendering/Model/Mesh.cpp
-        src/Rendering/Model/Mesh.hpp
-        src/Rendering/Model/Model.cpp
-        src/Rendering/Model/Model.hpp
+        src/Rendering/Mesh/Mesh.cpp
+        src/Rendering/Mesh/Mesh.hpp
+        src/Rendering/Mesh/Model.cpp
+        src/Rendering/Mesh/Model.hpp
         src/Rendering/Vertex.hpp
 )
 
@@ -66,16 +65,17 @@ target_include_directories(Future PUBLIC
         ${THIRD_PARTY_LIB_DIR}/glad/include/
         ${THIRD_PARTY_LIB_DIR}/stb/
         ${THIRD_PARTY_LIB_DIR}/glm/glm/
-        ${THIRD_PARTY_LIB_DIR}/json/include
         ${THIRD_PARTY_LIB_DIR}/assimp/include
+        #${THIRD_PARTY_LIB_DIR}/imgui_cmake
+        #${THIRD_PARTY_LIB_DIR}/imgui_cmake/backends
 )
 
 target_link_libraries(Future PUBLIC spdlog::spdlog $<$<BOOL:${MINGW}>:ws2_32>)
 target_link_libraries(Future PUBLIC SDL2::SDL2main)
 target_link_libraries(Future PUBLIC SDL2::SDL2)
-target_link_libraries(Future PUBLIC glfw)
 target_link_libraries(Future PUBLIC glm)
 target_link_libraries(Future PUBLIC assimp)
+#target_link_libraries(Future PUBLIC imgui)
 
 add_custom_command(TARGET Future POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory

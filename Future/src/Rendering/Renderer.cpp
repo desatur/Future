@@ -130,7 +130,7 @@ namespace Future
             m_mainCamera.UpdateMatrix(45.0f, 0.01f, 10000.0f);
             m_mainCamera.Matrix(*defaultShaderProgram, "camMatrix");
 
-            //helmet.Draw(*defaultShaderProgram, m_mainCamera);
+            helmet.Draw(*defaultShaderProgram, m_mainCamera);
             sponza.Draw(*defaultShaderProgram, m_mainCamera);
 
             glBindFramebuffer(GL_FRAMEBUFFER, 0); // Bind the default framebuffer

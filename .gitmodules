@@ -1,13 +1,7 @@
-[submodule "lib/benchmark"]
-	path = thirdParty/benchmark
-	url = https://github.com/google/benchmark.git
 [submodule "thirdParty/SDL"]
 	path = thirdParty/SDL
 	url = https://github.com/libsdl-org/SDL/
 	branch = SDL2
-[submodule "thirdParty/glfw"]
-	path = thirdParty/glfw
-	url = https://github.com/glfw/glfw
 [submodule "thirdParty/gv"]
 	path = thirdParty/gv
 	url = https://github.com/kohakow/gv
@@ -20,18 +14,9 @@
 [submodule "thirdParty/glm"]
 	path = thirdParty/glm
 	url = https://github.com/g-truc/glm
-[submodule "thirdParty/json"]
-	path = thirdParty/json
-	url = https://github.com/nlohmann/json
-[submodule "thirdParty/tinygltf"]
-	path = thirdParty/tinygltf
-	url = https://github.com/syoyo/tinygltf/
 [submodule "thirdParty/entt"]
 	path = thirdParty/entt
 	url = https://github.com/skypjack/entt
-[submodule "thirdParty/imgui"]
-	path = thirdParty/imgui
-	url = https://github.com/ocornut/imgui
 [submodule "thirdParty/assimp"]
 	path = thirdParty/assimp
 	url = https://github.com/assimp/assimp

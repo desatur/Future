@@ -10,7 +10,6 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
-#include <../../../thirdParty/json/include/nlohmann/json.hpp>
 #include <glm/gtx/matrix_decompose.hpp>
 
 namespace Future
