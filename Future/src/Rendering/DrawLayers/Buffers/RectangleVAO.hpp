@@ -1,12 +1,9 @@
-#ifndef RECTANGLEVAO_HPP
-#define RECTANGLEVAO_HPP
+#pragma once
 #include <glad/glad.h>
 #include "RectangleVBO.hpp"
 
-namespace Future
-{
-    class RectangleVAO
-    {
+namespace Future {
+    class RectangleVAO {
         public:
             GLuint ID;
             RectangleVAO();
@@ -17,5 +14,3 @@ namespace Future
             void Delete();
     };
 }
-
-#endif //VAO_HPP

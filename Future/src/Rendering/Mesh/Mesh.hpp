@@ -1,13 +1,13 @@
-#ifndef MESH_HPP
-#define MESH_HPP
-
+#pragma once
 #include <string>
 #include <vector>
-
 #include "../Buffers/VAO.hpp"
 #include "../Buffers/EBO.hpp"
 #include "../Camera.hpp"
 #include "../Textures/Texture.hpp"
+#include "../Textures/TexType.hpp"
+#include "../Textures/TexTypeHelpers.hpp"
+// TODO: Move Renderer/Buffers to this dir
 
 namespace Future
 {
@@ -27,5 +27,3 @@ namespace Future
         void SetupMesh();
     };
 }
-
-#endif //MESH_HPP

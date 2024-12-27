@@ -1,13 +1,8 @@
 #include "Shaders.hpp"
-#include <fstream>
-#include <iostream>
-#include <string>
-#include <glad/glad.h>
-#include "../Log.hpp"
 
 namespace Future
 {
-    Shaders::Shaders(const char *vertexPath, const char *fragmentPath)
+    Shaders::Shaders(const char *vertexPath, const char *fragmentPath, const char *geomentryPath)
     {
         std::string vertexCode = GetFileContents(vertexPath);
         std::string fragmentCode = GetFileContents(fragmentPath);
@@ -16,27 +11,41 @@ namespace Future
         const char* fragmentShaderCode = fragmentCode.c_str();
 
         // Create and compile the vertex shader
-        GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+        vertexShader = glCreateShader(GL_VERTEX_SHADER);
         glShaderSource(vertexShader, 1, &vertexShaderCode, NULL);
         glCompileShader(vertexShader);
         CheckCompileErrors(vertexShader, "VERTEX");
 
         // Create and compile the fragment shader
-        GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+        fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
         glShaderSource(fragmentShader, 1, &fragmentShaderCode, NULL);
         glCompileShader(fragmentShader);
         CheckCompileErrors(fragmentShader, "FRAGMENT");
+
+
+        if (geomentryPath != nullptr) {
+            std::string geomentryCode = GetFileContents(geomentryPath);
+            const char* geomentryShaderCode = geomentryCode.c_str();
+
+            // Create and compile the geometry shader
+            geometryShader = glCreateShader(GL_GEOMETRY_SHADER);
+            glShaderSource(geometryShader, 1, &geomentryShaderCode, NULL);
+            glCompileShader(geometryShader);
+            CheckCompileErrors(geometryShader, "GEOMETRY");
+        }
 
         // Create and link the shader program
         ID = glCreateProgram();
         glAttachShader(ID, vertexShader);
         glAttachShader(ID, fragmentShader);
+        if (geomentryPath != nullptr) { glAttachShader(ID, geometryShader); }
         glLinkProgram(ID);
         CheckCompileErrors(ID, "PROGRAM");
 
         // Delete the individual shaders after linking
         glDeleteShader(vertexShader);
         glDeleteShader(fragmentShader);
+        if (geomentryPath != nullptr) { glDeleteShader(geometryShader); }
     }
 
     std::string Shaders::GetFileContents(const char* filename)

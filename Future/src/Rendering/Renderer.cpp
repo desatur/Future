@@ -21,6 +21,21 @@ namespace Future
         width = 1920;
         height = 1080;
         gladLoadGL();
+        /*
+            GLAD Extensions:
+
+            GL_ARB_debug_output (Not for release but whatever?)
+            GL_ARB_texture_compression
+            GL_ARB_texture_compression_bptc
+            GL_ARB_texture_compression_rgtc
+            GL_ARB_explicit_uniform_location
+            GL_ARB_explicit_attrib_location
+        */
+        GLint contextFlags;
+        glGetIntegerv(GL_CONTEXT_FLAGS, &contextFlags);
+        if (contextFlags & GL_CONTEXT_FLAG_DEBUG_BIT) {
+            FE_CORE_WARN("Debug context is enabled. Expect slow rendering!");
+        }
     }
 
     void Renderer::InitBackend()
@@ -63,19 +78,20 @@ namespace Future
             case GL_DEBUG_SEVERITY_NOTIFICATION: std::cerr << "Severity: notification"; break;
         } std::cerr << std::endl;
         std::cerr << std::endl;
+        std::this_thread::sleep_for (std::chrono::milliseconds(16));
     }
 
     void Renderer::Init()
     {
         ConstructPipeline();
 
-        glm::vec4 lightColor = glm::vec4(10.0f, 10.0f, 10.0f, 1.0f);
+        glm::vec4 lightColor = glm::vec4(100.0f, 100.0f, 100.0f, 1.0f);
         defaultShaderProgram->Activate();
         glUniform4f(glGetUniformLocation(defaultShaderProgram->ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
 
         Camera m_mainCamera(width, height, glm::vec3(0.0f, 0.0f, 1.0f));
         Model helmet("D:/DamagedHelmet/glTF/DamagedHelmet.gltf");
-        Model sponza("D:/Sponza/glTF/Sponza.gltf");
+        //Model sponza("D:/SponzaIntel/NewSponza_Main_glTF_003.gltf");
 
         RectangleVBO rectVBO;
         rectVBO.Bind();
@@ -131,7 +147,7 @@ namespace Future
             m_mainCamera.Matrix(*defaultShaderProgram, "camMatrix");
 
             helmet.Draw(*defaultShaderProgram, m_mainCamera);
-            sponza.Draw(*defaultShaderProgram, m_mainCamera);
+            //sponza.Draw(*defaultShaderProgram, m_mainCamera);
 
             glBindFramebuffer(GL_FRAMEBUFFER, 0); // Bind the default framebuffer
             postProcessingFramebuffer.Bind();
@@ -145,11 +161,8 @@ namespace Future
             // Render to the default framebuffer
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
             framebufferShaderProgram->Activate();
-
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, postProcessingFramebuffer.TexID);
-            
             rectVAO.Bind();
+            postProcessingFramebuffer.BindTex();
             glDisable(GL_DEPTH_TEST);
             glDrawArrays(GL_TRIANGLES, 0, 6);
 
@@ -165,15 +178,16 @@ namespace Future
         glDepthMask(GL_TRUE);
         glEnable(GL_FRAMEBUFFER_SRGB);
         glEnable(GL_BLEND);
+        glEnable(GL_MULTISAMPLE);
         //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        glEnable(GL_CULL_FACE);
+        //glEnable(GL_CULL_FACE);
         glDepthFunc(GL_LESS);
-        glCullFace(GL_BACK);
-        glFrontFace(GL_CCW);
+        //glCullFace(GL_BACK);
+        //glFrontFace(GL_CCW);
         glEnable(GL_POLYGON_OFFSET_FILL);
         glPolygonOffset(1.0f, 1.0f);
 
         framebufferShaderProgram = new Shaders("Shaders/framebuffer.vert", "Shaders/framebuffer.frag");
-        defaultShaderProgram = new Shaders("Shaders/default.vert", "Shaders/default.frag");
+        defaultShaderProgram = new Shaders("Shaders/default.vert", "Shaders/default.frag", "Shaders/default.geom");
     }
 }

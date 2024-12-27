@@ -1,20 +1,19 @@
-#ifndef TEXTURE_HPP
-#define TEXTURE_HPP
-
+#pragma once
 #include <iostream>
 #include <glad/glad.h>
 #include <stb_image.h>
 #include "../../Log.hpp"
-#include "../Shaders.hpp"
+#include "../Shaders/Shaders.hpp"
+#include "TexType.hpp"
 
 namespace Future
 {
     class Texture {
         public:
             GLuint ID;
-            const char* type;
+            TexType type;
             GLuint unit;
-            Texture(const char* image, const char* texType, GLuint slot);
+            Texture(const char* image, TexType texType, GLuint slot);
 
             void texUnit(Shaders& shader, const char* uniform, GLuint unit);
             void Bind();
@@ -22,5 +21,3 @@ namespace Future
             void Delete();
     };
 }
-
-#endif //TEXTURE_HPP

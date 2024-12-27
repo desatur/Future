@@ -37,7 +37,8 @@ namespace Future
 
 	void Camera::DebugMove()
 	{
-		float speed = 0.1f;
+		float speed = 0.0001f;
+		float sensitivity = 0.15f;
 		const Uint8* state = SDL_GetKeyboardState(NULL);
 
 		// Handles key inputs

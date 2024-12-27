@@ -1,30 +1,23 @@
 #include "VBO.hpp"
 
-#include <glad/glad.h>
-
-namespace Future
-{
-    VBO::VBO()
-    {
+namespace Future {
+    VBO::VBO() {
         glGenBuffers(1, &ID);
         glBindBuffer(GL_ARRAY_BUFFER, ID);
     }
 
-    VBO::VBO(std::vector<Vertex>& vertices)
-    {
+    VBO::VBO(std::vector<Vertex>& vertices) {
         this->vertices = vertices;
         glGenBuffers(1, &ID);
         glBindBuffer(GL_ARRAY_BUFFER, ID);
         Update();
     }
 
-    void VBO::Update()
-    {
+    void VBO::Update() {
         glBufferData(GL_ARRAY_BUFFER, this->vertices.size() * sizeof(Vertex), this->vertices.data(), GL_STATIC_DRAW);
     }
 
-    void VBO::Bind()
-    {
+    void VBO::Bind() {
         glBindBuffer(GL_ARRAY_BUFFER, ID);
     }
 

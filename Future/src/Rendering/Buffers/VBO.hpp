@@ -1,15 +1,11 @@
-#ifndef VBO_HPP
-#define VBO_HPP
+#pragma once
 #include <glad/glad.h>
-
 #include "vec2.hpp"
 #include "vec3.hpp"
 #include "../Vertex.hpp"
 
-namespace Future
-{
-    class VBO
-    {
+namespace Future {
+    class VBO {
         public:
             GLuint ID;
             VBO();
@@ -22,5 +18,3 @@ namespace Future
             void Delete();
     };
 };
-
-#endif //VBO_HPP

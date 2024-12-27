@@ -4,7 +4,7 @@ set(CMAKE_CXX_STANDARD 20)
 #set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 #set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Release>:Release>")
 set(ASSIMP_BUILD_STATIC_LIB OFF)
-set(SHADERS_DIR ${CMAKE_SOURCE_DIR}/Future/src/Shaders/)
+set(SHADERS_DIR ${CMAKE_SOURCE_DIR}/Future/src/Rendering/Shaders/GLSL)
 
 project(Future)
 
@@ -32,24 +32,27 @@ add_library(Future SHARED
         src/Rendering/Instances.hpp
         src/Rendering/Renderer.cpp
         src/Rendering/Renderer.hpp
-        src/Rendering/Shaders.cpp
-        src/Rendering/Shaders.hpp
+        src/Rendering/Shaders/Shaders.cpp
+        src/Rendering/Shaders/Shaders.hpp
         src/Rendering/Buffers/VBO.cpp
         src/Rendering/Buffers/VBO.hpp
         src/Rendering/Buffers/VAO.cpp
         src/Rendering/Buffers/VAO.hpp
         src/Rendering/Buffers/EBO.cpp
         src/Rendering/Buffers/EBO.hpp
-        src/Rendering/Buffers/FBO.cpp
-        src/Rendering/Buffers/FBO.hpp
-        src/Rendering/Buffers/RBO.cpp
-        src/Rendering/Buffers/RBO.hpp
-        src/Rendering/Buffers/Framebuffer/RectangleVAO.cpp
-        src/Rendering/Buffers/Framebuffer/RectangleVAO.hpp
-        src/Rendering/Buffers/Framebuffer/RectangleVBO.cpp
-        src/Rendering/Buffers/Framebuffer/RectangleVBO.hpp
+        src/Rendering/DrawLayers/Buffers/FBO.cpp
+        src/Rendering/DrawLayers/Buffers/FBO.hpp
+        src/Rendering/DrawLayers/Buffers/RBO.cpp
+        src/Rendering/DrawLayers/Buffers/RBO.hpp
+        src/Rendering/DrawLayers/Buffers/RectangleVAO.cpp
+        src/Rendering/DrawLayers/Buffers/RectangleVAO.hpp
+        src/Rendering/DrawLayers/Buffers/RectangleVBO.cpp
+        src/Rendering/DrawLayers/Buffers/RectangleVBO.hpp
         src/Rendering/Textures/Texture.cpp
         src/Rendering/Textures/Texture.hpp
+        src/Rendering/Textures/TexTypeHelpers.cpp
+        src/Rendering/Textures/TexTypeHelpers.hpp
+        src/Rendering/Textures/TexType.hpp
         src/Rendering/Camera.cpp
         src/Rendering/Camera.hpp
         src/Rendering/Mesh/Mesh.cpp

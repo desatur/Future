@@ -1,9 +1,7 @@
-#ifndef MODEL_HPP
-#define MODEL_HPP
-
+#pragma once
 #include "../Camera.hpp"
 #include "Mesh.hpp"
-#include "../Shaders.hpp"
+#include "../Shaders/Shaders.hpp"
 #include "../Buffers/VBO.hpp"
 #include "../Textures/Texture.hpp"
 #include <stb_image.h>
@@ -35,5 +33,3 @@ namespace Future
         glm::mat4 ConvertMatrixToGLM(const aiMatrix4x4& from);
     };
 }
-
-#endif //MODEL_HPP

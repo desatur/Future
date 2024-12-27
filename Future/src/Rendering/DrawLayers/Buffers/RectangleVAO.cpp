@@ -2,31 +2,26 @@
 
 namespace Future
 {
-    RectangleVAO::RectangleVAO()
-    {
+    RectangleVAO::RectangleVAO() {
         glGenVertexArrays(1, &ID);
     }
 
-    void RectangleVAO::LinkAttrib(RectangleVBO& VBO, GLuint layout, GLuint numComponents, GLenum type, GLsizeiptr stride, void* offset)
-    {
+    void RectangleVAO::LinkAttrib(RectangleVBO& VBO, GLuint layout, GLuint numComponents, GLenum type, GLsizeiptr stride, void* offset) {
         VBO.Bind();
         glVertexAttribPointer(layout, numComponents, type, GL_FALSE, stride, offset);
         glEnableVertexAttribArray(layout);
         VBO.Unbind();
     }
 
-    void RectangleVAO::Bind()
-    {
+    void RectangleVAO::Bind() {
         glBindVertexArray(ID);
     }
 
-    void RectangleVAO::Unbind()
-    {
+    void RectangleVAO::Unbind() {
         glBindVertexArray(0);
     }
 
-    void RectangleVAO::Delete()
-    {
+    void RectangleVAO::Delete() {
         glDeleteVertexArrays(1, &ID);
     }
 }

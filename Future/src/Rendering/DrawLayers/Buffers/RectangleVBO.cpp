@@ -1,7 +1,5 @@
 #include "RectangleVBO.hpp"
 
-#include <glad/glad.h>
-
 namespace Future
 {
     RectangleVBO::RectangleVBO()

@@ -22,11 +22,13 @@ namespace Future
         bool success = true;
         FE_CORE_INFO("Initializing game window");
 
+        // TODO: Hide window til engine loads fully
+
         Uint32 flags = SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL; //SDL_WINDOW_VULKAN alt backend
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG); // debug ogl
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
 
         if (mFullscreen)
         {

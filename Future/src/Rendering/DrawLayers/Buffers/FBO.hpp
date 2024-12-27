@@ -1,12 +1,9 @@
-#ifndef FBO_HPP
-#define FBO_HPP
+#pragma once
 #include <vector>
 #include <glad/glad.h>
 
-namespace Future
-{
-    class FBO
-    {
+namespace Future {
+    class FBO {
         public:
             GLuint ID;
             GLuint TexID;
@@ -19,5 +16,3 @@ namespace Future
             void ClearTex();
     };
 }
-
-#endif FBO_HPP

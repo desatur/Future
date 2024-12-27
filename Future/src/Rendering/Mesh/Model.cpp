@@ -1,12 +1,15 @@
 #include "Model.hpp"
-#include <iostream>
 
 namespace Future
 {
     Model::Model(const char *path)
     {
+        auto start = std::chrono::high_resolution_clock::now();
         model_path = path;
         LoadModel();
+        auto end = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double, std::milli> loadTime = end - start;
+        std::cout << "Model loaded in " << loadTime.count() << " ms.\n"; 
     }
 
     void Model::Draw(Shaders &shader, Camera &camera)
@@ -131,7 +134,7 @@ namespace Future
         for (unsigned int i = 0; i < textures.size(); i++)
         {
             Texture txt = textures[i];
-            std::cout << "Texture "<< i << " // ID:" <<  txt.ID << " Type:" << txt.type <<"\n"; // Type is not correct here, doesn't exist (output: Texture 1 // ID:2 Type:) [Type is not printed out] (Fixed in rework)
+            std::cout << "Texture "<< i << " // ID:" <<  txt.ID << " Type:" << TexTypeHelpers::TexTypeToString(txt.type) <<"\n"; // Type is not correct here, doesn't exist (output: Texture 1 // ID:2 Type:) [Type is not printed out] (Fixed in rework)
         }
 
         return Mesh(vertices, indices, textures);
@@ -139,19 +142,20 @@ namespace Future
 
     std::vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType type)
     {
-        const char* texType;
+        TexType texType;
         switch (type)
         {
             case aiTextureType_DIFFUSE:
-                texType = "diffuse";
+                texType = TexType::DIFFUSE;
                 break;
             case aiTextureType_SPECULAR:
-                texType = "specular";
+                texType = TexType::SPECULAR;
                 break;
             case aiTextureType_NORMALS:
-                texType = "normal";
+                texType = TexType::NORMAL;
                 break;
             default:
+                texType = TexType::DIFFUSE;
                 break;
         }
 
@@ -163,15 +167,8 @@ namespace Future
         {
             mat->GetTexture(type, i, &str);
             std::string texture_path = directory + '/' + std::string(str.C_Str());
-            Texture texture(texture_path.c_str(), texType, i);
-            std::cout << "Texture (push single) // ID:" <<  texture.ID << " Type: " << texture.type << " Path: " << texture_path << "\n"; // Type is still correct
+            Texture texture(texture_path.c_str(), texType, i); 
             textures.push_back(texture);
-        }
-
-        for (unsigned int i = 0; i < textures.size(); i++)
-        {
-            Texture txt = textures[i];
-            std::cout << "Texture "<< i << " // ID:" <<  txt.ID << " Type:" << txt.type <<"\n"; // Type is still correct
         }
         return textures;
     }

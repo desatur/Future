@@ -1,12 +1,9 @@
-#ifndef RBO_HPP
-#define RBO_HPP
+#pragma once
 #include <vector>
 #include <glad/glad.h>
 
-namespace Future
-{
-    class RBO
-    {
+namespace Future {
+    class RBO {
         public:
             GLuint ID;
             RBO(GLuint width, GLuint height);
@@ -16,5 +13,3 @@ namespace Future
             //void Delete();
     };
 }
-
-#endif RBO_HPP

@@ -1,12 +1,9 @@
-#ifndef VAO_HPP
-#define VAO_HPP
+#pragma once
 #include <glad/glad.h>
 #include "VBO.hpp"
 
-namespace Future
-{
-    class VAO
-    {
+namespace Future {
+    class VAO {
         public:
             GLuint ID;
             VAO();
@@ -17,5 +14,3 @@ namespace Future
             void Delete();
     };
 }
-
-#endif //VAO_HPP

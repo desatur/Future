@@ -7,13 +7,13 @@
 #include <chrono>
 #include <iostream>
 #include "SDL.h"
+#include <glad/glad.h>
 #include "../Core.hpp"
 #include "../Log.hpp"
 
 namespace Future
 {
-    class FE_API Window
-    {
+    class Window {
     public:
         Window(const std::string& title = "SDL2 Window", int width = 1920, int height = 1080, bool fullscreen = false); // Constructor with parameters for customization
         ~Window();

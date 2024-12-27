@@ -1,12 +1,9 @@
-#ifndef EBO_HPP
-#define EBO_HPP
+#pragma once
 #include <vector>
 #include <glad/glad.h>
 
-namespace Future
-{
-    class EBO
-    {
+namespace Future {
+    class EBO {
         public:
             GLuint ID;
             EBO();
@@ -19,5 +16,3 @@ namespace Future
             void Delete();
     };
 }
-
-#endif //EBO_HPP

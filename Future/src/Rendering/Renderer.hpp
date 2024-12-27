@@ -1,6 +1,3 @@
-#ifndef RENDERER_HPP
-#define RENDERER_HPP
-
 #pragma once
 #include "../Core.hpp"
 #include "../Window/Window.hpp"
@@ -11,17 +8,17 @@
 #include <../glm/glm.hpp>
 #include <../../../thirdParty/glm/glm/gtc/matrix_transform.hpp>
 #include <../../../thirdParty/glm/glm/gtc/type_ptr.hpp>
-#include "Shaders.hpp"
+#include "Shaders/Shaders.hpp"
 #include "Mesh/Model.hpp"
 #include "Camera.hpp"
-#include "Shaders.hpp"
+#include "Shaders/Shaders.hpp"
 #include "Buffers/EBO.hpp"
 #include "Buffers/VAO.hpp"
 #include "Buffers/VBO.hpp"
-#include "Buffers/FBO.hpp"
-#include "Buffers/RBO.hpp"
-#include "Buffers/Framebuffer/RectangleVBO.hpp"
-#include "Buffers/Framebuffer/RectangleVAO.hpp"
+#include "DrawLayers/Buffers/FBO.hpp"
+#include "DrawLayers/Buffers/RBO.hpp"
+#include "DrawLayers/Buffers/RectangleVBO.hpp"
+#include "DrawLayers/Buffers/RectangleVAO.hpp"
 
 namespace Future
 {
@@ -48,5 +45,3 @@ namespace Future
             FBO* postProcessingFramebuffer;
     };
 }
-
-#endif //RENDERER_HPP

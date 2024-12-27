@@ -1,9 +1,7 @@
 #include "Mesh.hpp"
 
-namespace Future
-{
-    Mesh::Mesh(std::vector <Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures)
-    {
+namespace Future {
+    Mesh::Mesh(std::vector <Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures) {
         this->vertices = vertices;
         this->indices = indices;
         this->textures = textures;
@@ -11,8 +9,7 @@ namespace Future
         SetupMesh();
     }
 
-    void Mesh::SetupMesh()
-    {
+    void Mesh::SetupMesh() {
         this->VAO.Bind();
         this->VBO.Bind();
         this->EBO.Bind();
@@ -33,8 +30,7 @@ namespace Future
         this->EBO.Unbind();
     }
 
-    void Mesh::Draw(Shaders &shader, Camera &camera, glm::mat4 matrix, glm::vec3 translation, glm::quat rotation, glm::vec3 scale)
-    {
+    void Mesh::Draw(Shaders &shader, Camera &camera, glm::mat4 matrix, glm::vec3 translation, glm::quat rotation, glm::vec3 scale) {
         shader.Activate();
         this->VAO.Bind();
 
@@ -43,22 +39,23 @@ namespace Future
         unsigned int numNormal = 0;
         for(unsigned int i = 0; i < textures.size(); i++)
         {
-            std::string num;
-            std::string type = textures[i].type;
-            if (type == "diffuse")
+            unsigned int num;
+            TexType type = textures[i].type;
+            if (type == TexType::DIFFUSE)
             {
-                num = std::to_string(numDiffuse++);
+                num = numDiffuse++;
                 textures[i].Bind();
             }
-            else if (type == "specular")
+            else if (type == TexType::SPECULAR)
             {
-                num = std::to_string(numSpecular++);
+                num = numSpecular++;
             }
-            else if (type == "normal")
+            else if (type == TexType::NORMAL)
             {
-                num = std::to_string(numNormal++);
+                num = numNormal++;
             }
-            textures[i].texUnit(shader, (type + num).c_str(), i);
+            std::string uniform = TexTypeHelpers::TexTypeToString(type) + std::to_string(num);
+            textures[i].texUnit(shader, uniform.c_str(), i);
         }
 
         // Initialize matrices
@@ -80,4 +77,4 @@ namespace Future
         glDrawElements(GL_TRIANGLES, this->indices.size(), GL_UNSIGNED_INT, 0);
         this->VAO.Unbind();
     }  
-} // Future
+}
