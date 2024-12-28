@@ -10,6 +10,7 @@
 #include <glad/glad.h>
 #include "../Core.hpp"
 #include "../Log.hpp"
+#include <imgui_impl_sdl2.h>
 
 namespace Future
 {

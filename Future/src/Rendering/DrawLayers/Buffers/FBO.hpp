@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <glad/glad.h>
+//#include "../../Renderer.hpp"
 
 namespace Future {
     class FBO {
@@ -13,6 +14,6 @@ namespace Future {
             void Unbind();
             void BindTex();
             void UnbindTex();
-            void ClearTex();
+            //void ClearTex();
     };
 }

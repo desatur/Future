@@ -1,5 +1,4 @@
 #include "FBO.hpp"
-#include "../../Instances.hpp"
 
 namespace Future {
     FBO::FBO(GLuint width, GLuint height, bool multisample) {
@@ -30,12 +29,14 @@ namespace Future {
     void FBO::UnbindTex() {
         glBindTexture(GL_TEXTURE_2D, 0);
     }
-
+    /*
     void FBO::ClearTex() {
         GLint prevShaderId;
         glGetIntegerv(GL_CURRENT_PROGRAM, &prevShaderId);
-        Future::Instances().renderer->framebufferShaderProgram->Activate();
-        glUniform1i(glGetUniformLocation(Future::Instances().renderer->framebufferShaderProgram->ID, "screenTexture"), 0);
+        auto renderer = Future::Renderer::Get();
+        renderer.framebufferShaderProgram->Activate();
+        glUniform1i(glGetUniformLocation(renderer.framebufferShaderProgram->ID, "screenTexture"), 0);
         glUseProgram(prevShaderId);
     }
+    */
 }

@@ -6,6 +6,10 @@ set(CMAKE_CXX_STANDARD 20)
 set(ASSIMP_BUILD_STATIC_LIB OFF)
 set(SHADERS_DIR ${CMAKE_SOURCE_DIR}/Future/src/Rendering/Shaders/GLSL)
 
+if(MSVC) 
+add_compile_options(/arch:AVX2) #make sure SIMD optimizations take place
+endif()
+
 project(Future)
 
 add_subdirectory(${THIRD_PARTY_LIB_DIR}/spdlog spdlog)
@@ -13,11 +17,19 @@ add_subdirectory(${THIRD_PARTY_LIB_DIR}/SDL SDL)
 add_subdirectory(${THIRD_PARTY_LIB_DIR}/glm glm)
 set(BUILD_SHARED_LIBS ON)
 add_subdirectory(${THIRD_PARTY_LIB_DIR}/assimp assimp)
-#add_subdirectory(${THIRD_PARTY_LIB_DIR}/imgui_cmake imgui)
 
 add_library(Future SHARED
         # GLAD
         ${THIRD_PARTY_LIB_DIR}/glad/src/glad.c
+
+        # Imgui
+        ${THIRD_PARTY_LIB_DIR}/imgui/imgui.cpp
+        ${THIRD_PARTY_LIB_DIR}/imgui/imgui_demo.cpp
+        ${THIRD_PARTY_LIB_DIR}/imgui/imgui_draw.cpp
+        ${THIRD_PARTY_LIB_DIR}/imgui/imgui_tables.cpp
+        ${THIRD_PARTY_LIB_DIR}/imgui/imgui_widgets.cpp
+        ${THIRD_PARTY_LIB_DIR}/imgui/backends/imgui_impl_sdl2.cpp
+        ${THIRD_PARTY_LIB_DIR}/imgui/backends/imgui_impl_opengl3.cpp
 
         src/Engine.cpp
         src/Engine.hpp
@@ -28,8 +40,10 @@ add_library(Future SHARED
         src/Log.hpp
         src/Window/Window.cpp
         src/Window/Window.hpp
-        src/Rendering/Instances.cpp
-        src/Rendering/Instances.hpp
+        src/Window/ImGUIHandler.cpp
+        src/Window/ImGUIHandler.hpp
+        #src/.cpp
+        #src/.hpp
         src/Rendering/Renderer.cpp
         src/Rendering/Renderer.hpp
         src/Rendering/Shaders/Shaders.cpp
@@ -69,8 +83,10 @@ target_include_directories(Future PUBLIC
         ${THIRD_PARTY_LIB_DIR}/stb/
         ${THIRD_PARTY_LIB_DIR}/glm/glm/
         ${THIRD_PARTY_LIB_DIR}/assimp/include
-        #${THIRD_PARTY_LIB_DIR}/imgui_cmake
-        #${THIRD_PARTY_LIB_DIR}/imgui_cmake/backends
+        ${THIRD_PARTY_LIB_DIR}/imgui_cmake
+        ${THIRD_PARTY_LIB_DIR}/imgui_cmake/backends
+        ${THIRD_PARTY_LIB_DIR}/imgui/
+        ${THIRD_PARTY_LIB_DIR}/imgui/backends
 )
 
 target_link_libraries(Future PUBLIC spdlog::spdlog $<$<BOOL:${MINGW}>:ws2_32>)
@@ -78,7 +94,6 @@ target_link_libraries(Future PUBLIC SDL2::SDL2main)
 target_link_libraries(Future PUBLIC SDL2::SDL2)
 target_link_libraries(Future PUBLIC glm)
 target_link_libraries(Future PUBLIC assimp)
-#target_link_libraries(Future PUBLIC imgui)
 
 add_custom_command(TARGET Future POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory

@@ -1,19 +1,24 @@
 #include "Renderer.hpp"
-#include "Instances.hpp"
 
 namespace Future
 {
-    Renderer::Renderer(Window* window)
-    {
+    Renderer* Renderer::instance = nullptr;
+    Renderer::Renderer(Window* window){
+        if (instance != nullptr) {
+            throw std::runtime_error("Renderer instance already exists! Use Renderer::Get() to access it.");
+        }
+        instance = this;
         m_window = window;
-        Future::Instances().renderer = this;
         PreInitBackend();
         InitBackend();
     }
 
-    Renderer::~Renderer()
-    {
+    Renderer::~Renderer(){
         //m_defaultShaderProgram->Delete();
+    }
+
+    Renderer Renderer::Get() {
+        return *instance;
     }
 
     void Renderer::PreInitBackend()
@@ -85,13 +90,15 @@ namespace Future
     {
         ConstructPipeline();
 
+        ImGUIHandler imgui(m_window);
+
         glm::vec4 lightColor = glm::vec4(100.0f, 100.0f, 100.0f, 1.0f);
         defaultShaderProgram->Activate();
         glUniform4f(glGetUniformLocation(defaultShaderProgram->ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
 
         Camera m_mainCamera(width, height, glm::vec3(0.0f, 0.0f, 1.0f));
         Model helmet("D:/DamagedHelmet/glTF/DamagedHelmet.gltf");
-        //Model sponza("D:/SponzaIntel/NewSponza_Main_glTF_003.gltf");
+        //Model sponza("D:/SponzaIntel/ported.gltf");
 
         RectangleVBO rectVBO;
         rectVBO.Bind();
@@ -102,7 +109,7 @@ namespace Future
     
         Future::FBO mainFramebuffer(width, height);
         Future::FBO postProcessingFramebuffer(width, height);
-        postProcessingFramebuffer.ClearTex();
+        //postProcessingFramebuffer.ClearTex();
         Future::RBO mainRenderbuffer(width, height);
         mainFramebuffer.Bind();
         mainRenderbuffer.Bind();
@@ -138,10 +145,11 @@ namespace Future
             mainRenderbuffer.Bind();
             glClearColor(0.0f, 0.0f, 0.025f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            imgui.NewFrame();
             glEnable(GL_DEPTH_TEST);
-            //glClearDepth(1.0);
             glUniform3f(glGetUniformLocation(defaultShaderProgram->ID, "lightPos"), lightPos.x, lightPos.y, lightPos.z);
 
+            // 3D rendering
             m_mainCamera.DebugMove();
             m_mainCamera.UpdateMatrix(45.0f, 0.01f, 10000.0f);
             m_mainCamera.Matrix(*defaultShaderProgram, "camMatrix");
@@ -150,9 +158,12 @@ namespace Future
             //sponza.Draw(*defaultShaderProgram, m_mainCamera);
 
             glBindFramebuffer(GL_FRAMEBUFFER, 0); // Bind the default framebuffer
+
+            bool show_demo_window = true;
+            ImGui::ShowDemoWindow(&show_demo_window);
+
             postProcessingFramebuffer.Bind();
             framebufferShaderProgram->Activate();
-
             postProcessingFramebuffer.Bind();
             glBindFramebuffer(GL_READ_FRAMEBUFFER, mainFramebuffer.ID);
             glBindFramebuffer(GL_DRAW_FRAMEBUFFER, postProcessingFramebuffer.ID);
@@ -165,7 +176,9 @@ namespace Future
             postProcessingFramebuffer.BindTex();
             glDisable(GL_DEPTH_TEST);
             glDrawArrays(GL_TRIANGLES, 0, 6);
+            imgui.DrawFrame();
 
+            // Swap buffers and tick the window
             m_window->Tick();
         }
     }
@@ -180,12 +193,12 @@ namespace Future
         glEnable(GL_BLEND);
         glEnable(GL_MULTISAMPLE);
         //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        //glEnable(GL_CULL_FACE);
+        glEnable(GL_CULL_FACE);
         glDepthFunc(GL_LESS);
-        //glCullFace(GL_BACK);
-        //glFrontFace(GL_CCW);
-        glEnable(GL_POLYGON_OFFSET_FILL);
-        glPolygonOffset(1.0f, 1.0f);
+        glCullFace(GL_BACK);
+        glFrontFace(GL_CCW);
+        //glEnable(GL_POLYGON_OFFSET_FILL);
+        //glPolygonOffset(1.0f, 1.0f);
 
         framebufferShaderProgram = new Shaders("Shaders/framebuffer.vert", "Shaders/framebuffer.frag");
         defaultShaderProgram = new Shaders("Shaders/default.vert", "Shaders/default.frag", "Shaders/default.geom");

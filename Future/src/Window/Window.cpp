@@ -10,6 +10,7 @@ namespace Future
         {
             FE_CORE_ERROR("SDL could not initialize!");
         }
+        //Future::Instances().window = this;
     }
 
     Window::~Window()
@@ -24,7 +25,7 @@ namespace Future
 
         // TODO: Hide window til engine loads fully
 
-        Uint32 flags = SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL; //SDL_WINDOW_VULKAN alt backend
+        Uint32 flags = SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL | SDL_WINDOW_ALLOW_HIGHDPI; //SDL_WINDOW_VULKAN alt backend
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
@@ -122,7 +123,7 @@ namespace Future
 
             while (SDL_PollEvent(&e))
             {
-                //ImGui_ImplSDL2_ProcessEvent(&e);
+                ImGui_ImplSDL2_ProcessEvent(&e);
                 if (e.type == SDL_QUIT)
                 {
                     mRunning = false;
