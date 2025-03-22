@@ -26,18 +26,18 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(spdlog)
 
-file (GLOB_RECURSE Future_SOURCES CONFIGURE_DEPENDS "src/*.cpp")
-file (GLOB_RECURSE Future_HEADERS CONFIGURE_DEPENDS "src/*.hpp")
+file (GLOB_RECURSE FutureCore_SOURCES CONFIGURE_DEPENDS "src/*.cpp")
+file (GLOB_RECURSE FutureCore_HEADERS CONFIGURE_DEPENDS "src/*.hpp")
 
-set (Future_INCLUDE_DIRS "")
+set (FutureCore_INCLUDE_DIRS "")
 
-foreach (_headerFile ${Future_HEADERS})
+foreach (_headerFile ${FutureCore_HEADERS})
     get_filename_component(_dir ${_headerFile} PATH)
-    list (APPEND Future_INCLUDE_DIRS ${_dir})
+    list (APPEND FutureCore_INCLUDE_DIRS ${_dir})
 endforeach()
 
-list (REMOVE_DUPLICATES Future_INCLUDE_DIRS)
+list (REMOVE_DUPLICATES FutureCore_INCLUDE_DIRS)
 
-add_library(${PROJECT_NAME} SHARED ${Future_SOURCES})
+add_library(${PROJECT_NAME} SHARED ${FutureCore_SOURCES})
 
 target_link_libraries(${PROJECT_NAME} PUBLIC spdlog::spdlog)
