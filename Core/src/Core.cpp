@@ -1,16 +1,14 @@
 #include "Core.hpp"
 
-Core::Core()
+Future::Core::Core()
 {
-
 }
 
-Core::~Core()
+Future::Core::~Core()
 {
-    
 }
 
-void Core::Run()
+void Future::Core::Run()
 {
     while (true);
 }

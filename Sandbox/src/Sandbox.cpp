@@ -1,6 +1,6 @@
-#include "../../Core/src/Core.hpp"
+#include "../../Core/Core.hpp"
 
-class Sandbox : public Core {
+class Sandbox : public Future::Core {
     public:
         Sandbox() {
     
@@ -8,7 +8,7 @@ class Sandbox : public Core {
         ~Sandbox() {
         }
     };
-    
-    Core* CreateApplication() {
-        return new Sandbox;
-    }
+
+Future::Core* CreateApplication() {
+    return new Sandbox();
+}

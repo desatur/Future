@@ -2,10 +2,9 @@
 #include "Core.hpp"
 //#include "./Log/Log.hpp"
 
-extern Core* CreateApplication();
+extern Future::Core* CreateApplication();
 
-//int argc, char *argv[]
-int main() {
+int main(int argc, char** argv) {
     //Log::Init();
     //LOG_INFO("Starting Future " Future_VERSION);
     auto app = CreateApplication();
