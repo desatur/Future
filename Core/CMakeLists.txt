@@ -40,4 +40,4 @@ list (REMOVE_DUPLICATES Future_INCLUDE_DIRS)
 
 add_library(${PROJECT_NAME} SHARED ${Future_SOURCES})
 
-target_link_libraries(${PROJECT_NAME} spdlog::spdlog)
+target_link_libraries(${PROJECT_NAME} PUBLIC spdlog::spdlog)

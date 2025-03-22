@@ -1,9 +1,10 @@
 #pragma once
 #include <memory>
+#include "../Export.hpp"
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 
-class Log {
+class FUTURE_API Log {
 public:
     static void Init();
     inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return s_CoreLogger; }
