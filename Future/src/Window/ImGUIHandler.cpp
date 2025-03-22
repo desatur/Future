@@ -1,8 +1,4 @@
 #include "ImGUIHandler.hpp"
-#include "imgui.h"
-#include "backends/imgui_impl_sdl2.h"
-#include "backends/imgui_impl_opengl3.h"
-#include "../Log.hpp"
 
 namespace Future
 {
@@ -11,7 +7,12 @@ namespace Future
         ImGui::CreateContext();
         ImGuiIO& io = ImGui::GetIO(); (void)io;
         io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+        io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;
         //io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+        //io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // IF using Docking Branch
+        int w, h;
+        SDL_GetWindowSize(window->GetWindow(), &w, &h);
+        io.DisplaySize = ImVec2(static_cast<float>(w), static_cast<float>(h));
 
         ImGui::StyleColorsDark();
         //ImGui::StyleColorsLight();
@@ -42,5 +43,17 @@ namespace Future
     void ImGUIHandler::DrawFrame(){
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    }
+
+    void ImGUIHandler::DebugWindow(){
+        static bool isOpen = true;
+
+        ImGui::Begin("Future Engine Diagnostic Window", &isOpen, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
+
+        ImGui::Text("Rendering Time: %s", std::to_string(Future::Renderer::Get().frameTime).c_str());
+        ImGui::Text("Frames Per Second: %s", std::to_string(Future::Renderer::Get().fps).c_str());
+        ImGui::Text("Delta Time: %s", std::to_string(Future::Renderer::Get().deltaTime).c_str());
+
+        ImGui::End();
     }
 }

@@ -1,5 +1,4 @@
 #include "Camera.hpp"
-#include "SDL.h"
 
 namespace Future
 {
@@ -35,13 +34,30 @@ namespace Future
 		Position = position;
 	}
 
-	void Camera::DebugMove()
+	void Camera::DebugMove(float deltaTime)
 	{
-		float speed = 0.0001f;
-		float sensitivity = 0.15f;
+		float speed = 10.0f * deltaTime;
+		float sensitivity = 100.0f * deltaTime;
 		const Uint8* state = SDL_GetKeyboardState(NULL);
 
-		// Handles key inputs
+		if (state[SDL_SCANCODE_LALT]) // Left Alt key
+		{
+			focus = false;
+		}
+		if (state[SDL_SCANCODE_RALT]) // Right Alt key
+		{
+			focus = true;
+		}
+
+		if (state[SDL_SCANCODE_LSHIFT]) // Left Shift key
+		{
+			speed = speed * 2;
+		}
+		if (state[SDL_SCANCODE_C]) // C key
+		{
+			speed = speed * 0.5;
+		}
+
 		if (state[SDL_SCANCODE_W]) // W key
 		{
 			Position += speed * Orientation;
@@ -60,38 +76,37 @@ namespace Future
 		}
 
 		// Handles mouse inputs
-		if (SDL_GetMouseState(NULL, NULL) & SDL_BUTTON(SDL_BUTTON_LEFT)) // Left mouse button
+		if (focus)
 		{
-			// Hides mouse cursor
 			SDL_ShowCursor(SDL_DISABLE);
-			
-			// Stores the coordinates of the cursor
+				
+			// Get the current position of the mouse
 			int mouseX, mouseY;
 			SDL_GetMouseState(&mouseX, &mouseY);
 
-			// Normalizes and shifts the coordinates of the cursor
+			// Calculate mouse displacement relative to center of the screen
 			float rotX = sensitivity * (float)(mouseY - (height / 2)) / height;
 			float rotY = sensitivity * (float)(mouseX - (width / 2)) / width;
 
-			// Calculates upcoming vertical change in the Orientation
-			glm::vec3 newOrientation = glm::rotate(Orientation, glm::radians(-rotX), glm::normalize(glm::cross(Orientation, Up)));
+			// Apply vertical rotation (pitch) using the right vector
+			glm::vec3 right = glm::normalize(glm::cross(Orientation, Up));
+			glm::vec3 newOrientation = glm::rotate(Orientation, glm::radians(-rotX), right);
 
-			// Decides whether or not the next vertical Orientation is legal or not
-			if (abs(glm::angle(newOrientation, Up) - glm::radians(90.0f)) <= glm::radians(85.0f))
+			// Ensure the camera doesn't flip upside down (clamping between -89 to 89 degrees for pitch)
+			if (glm::angle(newOrientation, Up) < glm::radians(89.0f))
 			{
 				Orientation = newOrientation;
 			}
 
-			// Rotates the Orientation left and right
+			// Apply horizontal rotation (yaw) using the up vector
 			Orientation = glm::rotate(Orientation, glm::radians(-rotY), Up);
 
-			// Sets mouse cursor to the middle of the screen so that it doesn't end up roaming around
-			//SDL_WarpMouseInWindow(0, width / 2, height / 2);
+			SDL_WarpMouseInWindow(NULL, width / 2, height / 2);
 		}
 		else
 		{
 			SDL_ShowCursor(SDL_ENABLE);
-			firstClick = true;
 		}
 	}
+
 }

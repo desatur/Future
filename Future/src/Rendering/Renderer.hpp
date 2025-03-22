@@ -32,6 +32,9 @@ namespace Future
             [[nodiscard]] Camera* GetMainCamera() const { return m_mainCamera; }
             Shaders* defaultShaderProgram;
             Shaders* framebufferShaderProgram;
+            float deltaTime;
+            float fps;
+            float frameTime;
         private:
             static Renderer* instance;
             void PreInitBackend();

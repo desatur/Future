@@ -1,6 +1,4 @@
-#ifndef CAMERA_HPP
-#define CAMERA_HPP
-
+#pragma once
 #include "Shaders/Shaders.hpp"
 #include "../../../thirdParty/glm/glm/vec3.hpp"
 #include "../../../thirdParty/glm/glm/glm.hpp"
@@ -8,8 +6,12 @@
 #include "../../../thirdParty/glm/glm/gtc/type_ptr.hpp"
 #include "../../../thirdParty/glm/glm/gtc/matrix_transform.hpp"
 #include "../../../thirdParty/glm/glm/gtc/type_ptr.hpp"
+#ifndef GLM_ENABLE_EXPERIMENTAL
 #define GLM_ENABLE_EXPERIMENTAL
+#endif
 #include "../../../thirdParty/glm/glm/gtx/vector_angle.hpp"
+#include "SDL.h"
+#include "../Window/Window.hpp"
 
 namespace Future {
     class Camera
@@ -24,6 +26,8 @@ namespace Future {
             // Prevents the camera from jumping around when first clicking left click
             bool firstClick = true;
 
+            bool focus = true;
+
             // Stores the width and height of the window
             float width, height;
 
@@ -34,8 +38,6 @@ namespace Future {
             void UpdateMatrix(float FOVdeg, float nearPlane, float farPlane);
             void Matrix(Shaders& shader, const char* uniform);
             void SetPosition(glm::vec3 position);
-            void DebugMove();
+            void DebugMove(float deltaTime);
     };
 }
-
-#endif //CAMERA_HPP

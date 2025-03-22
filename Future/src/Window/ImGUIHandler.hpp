@@ -1,5 +1,10 @@
 #pragma once
 #include "Window.hpp"
+#include "../Rendering/Renderer.hpp"
+#include "imgui.h"
+#include "backends/imgui_impl_sdl2.h"
+#include "backends/imgui_impl_opengl3.h"
+#include "../Log.hpp"
 
 namespace Future
 {
@@ -10,6 +15,7 @@ namespace Future
 
         void NewFrame();
         void DrawFrame();
+        void DebugWindow();
         private:
 
     };

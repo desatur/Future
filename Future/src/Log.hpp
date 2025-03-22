@@ -1,6 +1,4 @@
-#ifndef LOG_HPP
-#define LOG_HPP
-
+#pragma once
 #include <memory>
 #include "Core.hpp"
 #include "spdlog/spdlog.h"
@@ -34,5 +32,3 @@ namespace Future {
 #define FE_TRACE(...) Future::Log::GetClientLogger()->trace(__VA_ARGS__)
 #define FE_DEBUG(...) Future::Log::GetClientLogger()->debug(__VA_ARGS__)
 #define FE_FATAL(...) Future::Log::GetClientLogger()->fatal(__VA_ARGS__)
-
-#endif //LOG_HPP

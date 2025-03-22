@@ -1,11 +1,12 @@
-#ifndef ENGINE_HPP
-#define ENGINE_HPP
-
+#pragma once
 #include "Core.hpp"
 #include "Window/Window.hpp"
 #include "Rendering/Renderer.hpp"
 #define STB_IMAGE_IMPLEMENTATION
+#define GLM_ENABLE_EXPERIMENTAL
 #include <stb_image.h>
+#include "Window/Window.hpp"
+#include "Rendering/Renderer.hpp"
 
 namespace Future {
     class FE_API Engine {
@@ -16,5 +17,3 @@ namespace Future {
     // Client:
     Engine* CreateApplication();
 }
-
-#endif // ENGINE_HPP

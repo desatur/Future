@@ -5,7 +5,7 @@ namespace Future
     Renderer* Renderer::instance = nullptr;
     Renderer::Renderer(Window* window){
         if (instance != nullptr) {
-            throw std::runtime_error("Renderer instance already exists! Use Renderer::Get() to access it.");
+            throw std::runtime_error("Renderer instance already exists");
         }
         instance = this;
         m_window = window;
@@ -130,14 +130,30 @@ namespace Future
 
         float radius = 1.0f;  // Radius of the circular path
         float speed = 2.5f;   // Speed of rotation
-
+        float lastTime = SDL_GetTicks() / 1000.0f; // Get initial time
+        int frameCount = 0;
+        float elapsedTime = 0.0f;
         while (m_window->IsRunning())
         {
-            float time = SDL_GetTicks() / 1000.0f; // Time in seconds
+            float currentTime = SDL_GetTicks() / 1000.0f;
+            this->deltaTime = currentTime - lastTime; // Calculate deltaTime
+            lastTime = currentTime; // Update lastTime for the next frame
+
+            frameCount++; // Increment frame count
+            elapsedTime += deltaTime; // Add to total elapsed time
+
+            if (elapsedTime >= 1.0f) // Every second
+            {
+                this->fps = frameCount / elapsedTime; // Calculate FPS
+                this->frameTime = (elapsedTime / frameCount) * 1000.0f; // Average frame time in milliseconds
+                frameCount = 0;
+                elapsedTime = 0.0f;
+            }
+
             glm::vec3 lightPos = glm::vec3(
-                radius * cos(speed * time),  // X coordinate
-                0.5f,                        // Y coordinate (static height)
-                radius * sin(speed * time)   // Z coordinate
+                radius * cos(speed * currentTime),  // X coordinate
+                0.5f,                               // Y coordinate (static height)
+                radius * sin(speed * currentTime)   // Z coordinate
             );
 
             defaultShaderProgram->Activate();
@@ -150,17 +166,44 @@ namespace Future
             glUniform3f(glGetUniformLocation(defaultShaderProgram->ID, "lightPos"), lightPos.x, lightPos.y, lightPos.z);
 
             // 3D rendering
-            m_mainCamera.DebugMove();
+            m_mainCamera.DebugMove(deltaTime); // Pass deltaTime for movement adjustments
             m_mainCamera.UpdateMatrix(45.0f, 0.01f, 10000.0f);
             m_mainCamera.Matrix(*defaultShaderProgram, "camMatrix");
 
             helmet.Draw(*defaultShaderProgram, m_mainCamera);
-            //sponza.Draw(*defaultShaderProgram, m_mainCamera);
+            helmet.Draw(*defaultShaderProgram, m_mainCamera);
+            helmet.Draw(*defaultShaderProgram, m_mainCamera);
+            helmet.Draw(*defaultShaderProgram, m_mainCamera);
+            helmet.Draw(*defaultShaderProgram, m_mainCamera);
+            helmet.Draw(*defaultShaderProgram, m_mainCamera);
+            helmet.Draw(*defaultShaderProgram, m_mainCamera);
+            helmet.Draw(*defaultShaderProgram, m_mainCamera);
+            helmet.Draw(*defaultShaderProgram, m_mainCamera);
+            helmet.Draw(*defaultShaderProgram, m_mainCamera);
+            helmet.Draw(*defaultShaderProgram, m_mainCamera);
+            helmet.Draw(*defaultShaderProgram, m_mainCamera);
+            helmet.Draw(*defaultShaderProgram, m_mainCamera);
+            helmet.Draw(*defaultShaderProgram, m_mainCamera);
+            helmet.Draw(*defaultShaderProgram, m_mainCamera);
+            helmet.Draw(*defaultShaderProgram, m_mainCamera);
+            helmet.Draw(*defaultShaderProgram, m_mainCamera);
+            helmet.Draw(*defaultShaderProgram, m_mainCamera);
+            helmet.Draw(*defaultShaderProgram, m_mainCamera);
+            helmet.Draw(*defaultShaderProgram, m_mainCamera);
+            helmet.Draw(*defaultShaderProgram, m_mainCamera);
+            helmet.Draw(*defaultShaderProgram, m_mainCamera);
+            helmet.Draw(*defaultShaderProgram, m_mainCamera);
+            helmet.Draw(*defaultShaderProgram, m_mainCamera);
+            helmet.Draw(*defaultShaderProgram, m_mainCamera);
+            helmet.Draw(*defaultShaderProgram, m_mainCamera);
+            helmet.Draw(*defaultShaderProgram, m_mainCamera);
+            helmet.Draw(*defaultShaderProgram, m_mainCamera);
+            helmet.Draw(*defaultShaderProgram, m_mainCamera);
+            helmet.Draw(*defaultShaderProgram, m_mainCamera);
 
             glBindFramebuffer(GL_FRAMEBUFFER, 0); // Bind the default framebuffer
 
-            bool show_demo_window = true;
-            ImGui::ShowDemoWindow(&show_demo_window);
+            imgui.DebugWindow();
 
             postProcessingFramebuffer.Bind();
             framebufferShaderProgram->Activate();

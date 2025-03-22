@@ -2,20 +2,28 @@
 
 namespace Future
 {
+    Window* Window::instance = nullptr;
     Window::Window(const std::string& title, int width, int height, bool fullscreen)
         : mTitle(title), mWidth(width), mHeight(height), mFullscreen(fullscreen),
           sdlWindow(nullptr), sdlScreenSurface(nullptr), mRunning(false)
     {
+        this->instance = this;
         if (SDL_Init(SDL_INIT_VIDEO) < 0)
         {
             FE_CORE_ERROR("SDL could not initialize!");
         }
-        //Future::Instances().window = this;
     }
 
     Window::~Window()
     {
         Destroy();
+    }
+
+    Window Window::Get() {
+        if (!instance) {
+            throw std::runtime_error("Window is not initialized");
+        }
+        return *instance;
     }
 
     bool Window::Init()
@@ -56,6 +64,7 @@ namespace Future
                 FE_CORE_INFO("SDL_GLContext created");
                 mRunning = true;
             }
+            SDL_GL_MakeCurrent(sdlWindow, glSdlContext);
         }
         return success;
     }
@@ -132,7 +141,7 @@ namespace Future
                 {
                     if (e.key.keysym.scancode == SDL_SCANCODE_TAB)
                     {
-                        ToggleBindCursor();
+                        //ToggleBindCursor();
                     }
                 }
             }

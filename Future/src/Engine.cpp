@@ -1,6 +1,4 @@
 #include "Engine.hpp"
-#include "Window/Window.hpp"
-#include "Rendering/Renderer.hpp"
 
 namespace Future {
     void Engine::Run() {
