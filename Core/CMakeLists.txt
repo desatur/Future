@@ -39,5 +39,4 @@ endforeach()
 list (REMOVE_DUPLICATES FutureCore_INCLUDE_DIRS)
 
 add_library(${PROJECT_NAME} SHARED ${FutureCore_SOURCES})
-
-target_link_libraries(${PROJECT_NAME} PUBLIC spdlog::spdlog)
+target_link_libraries(${PROJECT_NAME} PUBLIC FutureRendering spdlog::spdlog)

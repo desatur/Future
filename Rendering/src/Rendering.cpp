@@ -1,16 +1,18 @@
 #include "Rendering.hpp"
 
-Future::Rendering::Rendering()
-{
-
-}
-
-Future::Rendering::~Rendering()
-{
-
-}
-
-void Future::Rendering::Initialize()
-{
-
+namespace Future {
+    Rendering::Rendering()
+    {
+    
+    }
+    
+    Rendering::~Rendering()
+    {
+    
+    }
+    
+    void Rendering::Initialize()
+    {
+    
+    }
 }
