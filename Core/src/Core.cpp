@@ -1,16 +1,27 @@
 #include "Core.hpp"
-//#include "../../Rendering/src/Window/PresentationWindow.hpp"
+#include "Log/Log.hpp"
+#include "../../Rendering/src/Window/PresentationWindow.hpp"
 
-Future::Core::Core()
-{
+namespace Future {
+    Core::Core()
+    {
+    }
+    
+    Core::~Core()
+    {
+    }
+
+    void Core::Run()
+    {
+        PresentationWindow window(1920, 1080, "nullge");
+        Loop();
+    }
+
+    void Core::Loop(){
+        LOG_INFO("Main Core Loop Started.");
+        while (true){
+            PresentationWindow::PollWindowEvents();
+        }
+    }
 }
 
-Future::Core::~Core()
-{
-}
-
-void Future::Core::Run()
-{
-    //PresentationWindow window(1920, 1080, "Vulkan Window");
-    while (true);
-}

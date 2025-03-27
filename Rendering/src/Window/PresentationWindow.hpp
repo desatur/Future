@@ -5,6 +5,11 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include <stdexcept>
+#include <iostream>
+#include <algorithm>
+#include <atomic>
+#include <thread>
 
 namespace Future {
     class PresentationWindow {
@@ -23,8 +28,14 @@ namespace Future {
             std::string Title;
             GLFWwindow* BaseWindow;
             
+            // Static
             static std::vector<PresentationWindow*> Windows;
             static PresentationWindow* MainWindow;
+            static void PollWindowEvents();
+            static void SwapWindowBuffers();
+
+            //Normal
+            std::atomic<bool> UpdateOnTick;
         };
     }        
 

@@ -1,18 +1,31 @@
 #include "PresentationWindow.hpp"
-#include <stdexcept>
-#include <iostream>
-#include <algorithm>
 
 /*
     TODO: runtime_error -> log
 */
 
 namespace Future {
+    // Static
     std::vector<PresentationWindow*> PresentationWindow::Windows;
     PresentationWindow* PresentationWindow::MainWindow = nullptr;
+
+    // Normal
+    std::atomic<bool> UpdateOnTick(true);
+
+    void PresentationWindow::PollWindowEvents() {
+        for (PresentationWindow* window : PresentationWindow::Windows) {
+            glfwPollEvents();
+        }
+    }
+
+    void PresentationWindow::SwapWindowBuffers() {
+        for (PresentationWindow* window : PresentationWindow::Windows) {
+            glfwSwapBuffers(window->BaseWindow);
+        }
+    }
     
     PresentationWindow::PresentationWindow(int width, int height, const std::string& title)
-        : Width(width), Height(height), Title(title), BaseWindow(nullptr) {
+        : Width(width), Height(height), Title(title), BaseWindow(nullptr), UpdateOnTick(true) {
         if (!MainWindow){
             MainWindow = this;
         }
@@ -43,7 +56,7 @@ namespace Future {
         
         glfwMakeContextCurrent(BaseWindow);
     }
-    
+
     void PresentationWindow::CreateWindowSurface(VkInstance instance, VkSurfaceKHR& surface) {
         if (glfwCreateWindowSurface(instance, BaseWindow, nullptr, &surface) != VK_SUCCESS) {
             throw std::runtime_error("Failed to create window surface.");

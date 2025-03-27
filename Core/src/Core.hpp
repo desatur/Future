@@ -7,6 +7,7 @@ namespace Future {
             Core();
             virtual ~Core();
             void Run();
+            void Loop();
         };
         
         Core* CreateApplication();
